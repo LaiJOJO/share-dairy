@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+##文件布局
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 相关包
+  1. react-router-dom
+  2. less -D
+  3. react-quill // 富文本编辑器包
+  4. axios
+  5. query-string --- 解析search传参字符串
+  6. moment -- 用于管理显示时间
 
-## Available Scripts
+## 1. 创建SPA路由,创建路由注册表
+    a. <Fragment>代替组件的包裹容器
+    b. <Navigate>重定向
+    c. 使用一个less文件样式
 
-In the project directory, you can run:
+## LOGIN and REGISTER
+  a. 采用flex布局
+  b. 注册页面监听输入框变化onChange事件，更新state状态
+  c. 创建state收集错误状态，用于判断错误信息并显示在页面上
+  {/* 有错误信息就显示 */}
+        {err && <p>{err}</p>}
+  d. 使用context来进行token的数据共享,配合useContext使用，监听状态当前currentUsername变化来保存到localStorage
 
-### `npm start`
+## Navbar
+  a. 包括logo图标，导航栏
+  1. logout导航按钮 根据是否有本地存储的username决定是否显示，有username显示username
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Footer
+## Recommend
+  a. 根据Single传递的props的cat属性进行相关推荐
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Home
+  a. p和h1 标签放文本换行设置:
+  p,h1{
+    white-space: normal;
+    word-break: break-all;
+    word-wrap: break-word;
+  }
+  1. 文章根据浏览器url的query参数的cat类型进行文章请求,使用useState的hook进行保存
+  2. 过滤富文本编辑器的标签
 
-### `npm test`
+## Single
+  a. 根据params参数获取指定id的post文章
+  b. 发起删除操作,注意当本地存储的currentUsername和文章的postUsername相同才显示删除键
+  c. 过滤标签再输出
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Write
+  a. 收集title，file(图片),desc,cat
+  b. 由详情页跳转编辑的携带state参数，将参数作为输入框默认值
+  c. 根据有无state传参判断是创建还是更改
+  
