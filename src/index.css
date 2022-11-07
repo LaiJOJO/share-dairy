@@ -1,3 +1,4 @@
+@import '~antd/dist/antd.css';
 .app {
   display: flex;
   justify-content: center;
@@ -35,7 +36,7 @@
   flex-direction: column;
   background-color: white;
   padding: 50px;
-  width: 200px;
+  width: 300px;
   gap: 20px;
 }
 .app .container .auth form input {
@@ -76,6 +77,12 @@
 .app .container .navbar .container .links h6 {
   font-size: 16px;
   font-weight: 300;
+}
+.app .container .navbar .container .links h6:hover {
+  font-weight: bolder;
+}
+.app .container .navbar .container .links .active {
+  font-weight: bolder;
 }
 .app .container .navbar .container .links span {
   cursor: pointer;
@@ -166,6 +173,7 @@
 }
 .app .container .home .posts .post .content button {
   padding: 8px;
+  width: 100%;
   background-color: white;
   border: 1px solid teal;
   color: teal;

@@ -1,3 +1,4 @@
+@import '~antd/dist/antd.css';
 .app {
   display: flex;
   justify-content: center;
@@ -41,7 +42,7 @@
         flex-direction: column;
         background-color: white;
         padding: 50px;
-        width: 200px;
+        width: 300px;
         gap: 20px;
 
         input {
@@ -93,6 +94,14 @@
           h6 {
             font-size: 16px;
             font-weight: 300;
+
+            &:hover {
+              font-weight: bolder;
+            }
+          }
+
+          .active {
+            font-weight: bolder;
           }
 
           span {
@@ -203,6 +212,7 @@
 
             button {
               padding: 8px;
+              width: 100%;
               background-color: white;
               border: 1px solid teal;
               color: teal;

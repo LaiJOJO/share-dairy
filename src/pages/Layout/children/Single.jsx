@@ -40,18 +40,18 @@ export default function Single() {
   return (
     <div className='single'>
       <div className='content'>
-        <img src={require('../../../../public/uploads/1667646424171-869999950R-C.png')} alt="" />
+          <img src={require('../../../../public/uploads/' + post?.img)} alt={post?.title} />
         {/* 头像 */}
         <div className='user'>
-          {post.userImg !== 'null' && <img src={post.userImg} alt="" />}
+          {post.userImg !== 'null' && <img src={post?.userImg} alt="" />}
           <div className='info'>
             <span>{post?.username}</span>
-            <p>Posted {moment(post.date).fromNow()}</p>
+            <p>Posted {moment(post?.date).fromNow()}</p>
           </div>
           {
-            currentUsername === post.username && (
+            currentUsername === post?.username && (
               <div className="edit">
-                <Link to={`/write?edit=${post.id}`} state={post}>
+                <Link to={`/write?edit=${post?.id}`} state={post}>
                   <img src={edit} alt="edit" title='edit' />
                 </Link>
                 <img src={del} alt="delete" title='delete' onClick={onDelete} />
@@ -64,7 +64,7 @@ export default function Single() {
           {domParser(post?.desc)}
         </p>
       </div>
-      <Recomment cat={post.cat}/>
+      <Recomment cat={post.cat} />
     </div>
   )
 }

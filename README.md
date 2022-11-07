@@ -48,4 +48,6 @@
   a. 收集title，file(图片),desc,cat
   b. 由详情页跳转编辑的携带state参数，将参数作为输入框默认值
   c. 根据有无state传参判断是创建还是更改
-  
+
+## 优化
+  1. 暴露setState状态的set函数，在axios拦截器进行设置bool影响loading界面

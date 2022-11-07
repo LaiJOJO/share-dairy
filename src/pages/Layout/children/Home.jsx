@@ -30,12 +30,12 @@ export default function Home() {
             return (
               <li className='post' key={post?.id}>
                 <div className='img'>
-                  <img src={require('../../../../public/uploads/'+post?.img)} alt={post?.title} />
+                  <img src={require('../../../../public/uploads/' + post?.img)} alt={post?.title} />
                 </div>
                 <div className='content'>
                   <Link className='link' to={`/post/${post?.id}`}><h1>{post?.title}</h1></Link>
                   <p>{domParser(post?.desc)}</p>
-                  <button>Get More</button>
+                  <Link className='link' to={`/post/${post?.id}`}><button>Get More</button></Link>
                 </div>
               </li>
             )
