@@ -10,6 +10,7 @@ request.interceptors.request.use((config) => {
   setLoad(true)
   return config
 }, err => {
+  setLoad(false)
   console.log(err)
 })
 
@@ -18,6 +19,7 @@ request.interceptors.response.use((res) => {
   setLoad(false)
   return res
 }, (err) => {
+  setLoad(false)
   return Promise.reject(new Error(err))
 })
 export let isLoading = false

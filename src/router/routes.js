@@ -1,27 +1,30 @@
-import Layout from '../pages/Layout/Layout'
-import Home from '../pages/Layout/children/Home'
-import Login from '../pages/Login'
-import Write from '../pages/Layout/children/Write'
+import {lazy} from 'react'
 
-import Single from '../pages/Layout/children/Single'
-import Register from '../pages/Register'
-// import { Navigate } from 'react-router-dom'
+// 懒加载路由
+const Layout = lazy(()=>import('../pages/Layout/Layout'))
+const Home = lazy(()=>import('../pages/Layout/children/Home'))
+const Write = lazy(()=>import('../pages/Layout/children/Write'))
+const Single = lazy(()=>import('../pages/Layout/children/Single'))
+const Search = lazy(()=>import('../pages/Layout/children/SearchRes'))
+
+const Login = lazy(()=>import('../pages/Login'))
+const Register = lazy(()=>import('../pages/Register'))
+
+const User = lazy(()=>import('../pages/User/User'))
+const Drafts = lazy(()=>import('../pages/User/children/Drafts'))
+const Publisheds = lazy(()=>import('../pages/User/children/Publisheds'))
+const Userinfo = lazy(()=>import('../pages/User/children/Userinfo'))
+
+
+
 let router = [
-  /* {
-    path: '/',
-    element: <Navigate to="/layout"></Navigate>
-  }, */
   {
     path: '/',
     element: <Layout />,
     children: [
-      /* {
-        path: '',
-        element: <Navigate to="home"></Navigate>
-      }, */
       {
-        path:'',
-        element:<Home/>
+        path: '',
+        element: <Home />
       },
       {
         path: 'write',
@@ -30,16 +33,38 @@ let router = [
       {
         path: 'post/:id',
         element: <Single />
+      },
+      {
+        path: 'search',
+        element: <Search />
       }
     ]
   },
   {
     path: '/login',
     element: <Login />
-  }, 
+  },
   {
-    path: 'register',
+    path: '/register',
     element: <Register />
+  },
+  {
+    path: '/user',
+    element: <User />,
+    children:[
+      {
+        path:'',
+        element:<Userinfo/>
+      },
+      {
+        path:'publisheds',
+        element:<Publisheds/>
+      },
+      {
+        path:'drafts',
+        element:<Drafts/>
+      },
+    ]
   }
 ]
 

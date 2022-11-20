@@ -1,17 +1,17 @@
 import React from 'react'
-import { useState,useEffect} from 'react'
-import { getPosts } from '../axios/request'
-import {Link} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { getRecommentPosts } from '../axios/request'
+import { Link } from 'react-router-dom'
 
-export default function Recomment({cat}) {
+export default function Recomment({ cat }) {
   const [posts, setPost] = useState([])
   useEffect(() => {
     const getEffect = async () => {
       try {
-        const res = await getPosts(cat)
+        const res = await getRecommentPosts(cat)
         setPost(res.data)
       } catch (error) {
-        alert(error)
+        console.log(error)
       }
     }
     getEffect()
@@ -23,9 +23,9 @@ export default function Recomment({cat}) {
         posts.map(post => {
           return (
             <div className='post' key={post?.id}>
-              <img src={require('../../public/uploads/'+post?.img)} alt="" />
+              <img src={require('../../public/uploads/' + post?.img)} alt={post?.title} className='opacity' onLoad={(e)=>e.target.className='unopacity'}/>
               <h2>{post.title}</h2>
-              <Link to={`/post/${post?.id}`}><button>Get More</button></Link>
+              <Link to={`/post/${post?.id}`}><button>查看文章</button></Link>
             </div>
           )
         })

@@ -1,10 +1,15 @@
 import React from 'react'
 import { useContext } from 'react'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/authContext'
+import { scrollToTop } from '../units/scrollToTop'
+import {message,Modal} from 'antd'
 
 export default function Login() {
+  useEffect(() => {
+    scrollToTop()
+  }, [])
   const {login} = useContext(AuthContext)
   const navigate = useNavigate()
   const [value, changeValue] = useState({
@@ -16,13 +21,30 @@ export default function Login() {
     event.preventDefault()
     try {
       // 调用context内的login函数，进行异步登录请求
-        await login(value)
+        const res = await login(value)
+        message.success(res)
         navigate('/')
     } catch (error) { 
-      // 收集错误信息，显示在页面上
-      setErr(() => {
-        return (error.response.data)
-      })
+      if (error.message.includes('401')) {
+        setErr('用户名不存在 !')
+        Modal.confirm({
+          title: 'Tips',
+          content: (
+            <p>用户不存在! 是否前往注册?</p>
+          ),
+          onOk() {
+            navigate('/register')
+          },
+          okText: '点击前往注册页面 ',
+          cancelText: '取消'
+        });
+      }else if(error.message.includes('404')){
+        setErr('用户名或密码错误 !')
+        message.warning('用户名或密码错误 !')
+      }else{
+        setErr(error.message)
+        message.warning('网络异常, 请稍后尝试 !')
+      } 
     }
   }
   const handlerChange = function (event) {
