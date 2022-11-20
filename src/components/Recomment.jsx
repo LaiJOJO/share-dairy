@@ -23,7 +23,7 @@ export default function Recomment({ cat }) {
         posts.map(post => {
           return (
             <div className='post' key={post?.id}>
-              <img src={require('../../public/uploads/' + post?.img)} alt={post?.title} className='opacity' onLoad={(e)=>e.target.className='unopacity'}/>
+              <img src={post?.img} alt={post?.title} className='opacity' onLoad={(e) => e.target.className = 'unopacity'} />
               <h2>{post.title}</h2>
               <Link to={`/post/${post?.id}`}><button>查看文章</button></Link>
             </div>

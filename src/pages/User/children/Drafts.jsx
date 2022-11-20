@@ -42,7 +42,7 @@ export default function Drafts() {
                   <Link to={`/write?edit=${item?.id}`} key={item.id} style={{ textDecoration: 'none' }} state={item}>
                     <div className="article">
                       <div className='img'>
-                        {item?.img && <img src={require('../../../../public/uploads/' + item?.img)} alt={item.title} className='opacity' onLoad={(e)=>e.target.className='unopacity'}/>}
+                        {item?.img && <img src={ item?.img} alt={item.title} className='opacity' onLoad={(e)=>e.target.className='unopacity'}/>}
                       </div>
                       <div className='post'>
                         <h6>{item.title}</h6>

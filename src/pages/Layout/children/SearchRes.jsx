@@ -44,7 +44,7 @@ export default function SearchRes() {
                   <li className='post' key={post?.id}>
                     <div className='img'>
                       <Lazyload className='wid'>
-                        {post?.img && <img className='opacity' src={require('../../../../public/uploads/' + post?.img)} alt={post?.title} onLoad={(e) => e.target.className = 'unopacity'} />}
+                        {post?.img && <img className='opacity' src={ post?.img} alt={post?.title} onLoad={(e) => e.target.className = 'unopacity'} />}
                       </Lazyload>
                     </div>
                     <div className='content'>
