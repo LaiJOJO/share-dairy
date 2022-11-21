@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+body {
+  width: 100% !important;
+}
+
 .app {
   display: flex;
   justify-content: center;
@@ -10,7 +14,7 @@
     width: 100%;
     text-align: center;
     padding: 20px;
-  
+
     h1 {
       font-size: 25px;
       font-weight: bold;
@@ -48,7 +52,7 @@
 
   .container {
     width: 1084px;
-    padding:  0 30px;
+    padding: 0 30px;
     border-radius: 20px;
 
     .link {
@@ -240,7 +244,7 @@
             flex: 2;
             position: relative;
             max-width: 300px;
-              max-height: 200px;
+            max-height: 200px;
 
             img {
               width: 100%;
@@ -1018,6 +1022,81 @@
       }
     }
 
+    // draftPreview页面
+    .draft-preview {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: -50px;
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 40px 40px;
+        border: 5px dotted #90e6e6;
+        border-radius: 20px;
+
+        img {
+          width: 100%;
+          height: 300px;
+          object-fit: cover;
+          border-radius: 20px;
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 14px;
+
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          .info {
+            display: flex;
+            justify-content: space-around;
+            flex-direction: column;
+
+            p {
+              margin-bottom: 0;
+            }
+
+            span {
+              font-weight: bold;
+            }
+          }
+
+          .edit {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+
+            img {
+              width: 20px;
+              height: 20px;
+              cursor: pointer;
+            }
+          }
+        }
+
+        h1 {
+          font-size: 42px;
+          color: #333;
+        }
+
+        p {
+          text-align: justify;
+          line-height: 30px;
+          font-size: 16px;
+        }
+
+      }
+    }
+
   }
 }
 
@@ -1099,8 +1178,10 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      .btn-preview{}
-      .input{
+
+      .btn-preview {}
+
+      .input {
         .file {
           cursor: pointer;
         }

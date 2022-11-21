@@ -30,6 +30,10 @@ export const getPost = (postId) => {
   return request({ url: `/posts/getpost/${postId}`, method: 'GET' })
 }
 
+export const getDraft = (draftId) => {
+  return request({ url: `/posts/getdraft/${draftId}`, method: 'GET' })
+}
+
 export const deletePost = (postId) => {
   return request({ url: `/posts/deletepost/${postId}`, method: 'DELETE' })
 }

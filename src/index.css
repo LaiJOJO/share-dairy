@@ -1,4 +1,7 @@
 @import '~antd/dist/antd.css';
+body {
+  width: 100% !important;
+}
 .app {
   display: flex;
   justify-content: center;
@@ -827,6 +830,67 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.app .container .draft-preview {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: -50px;
+}
+.app .container .draft-preview .content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 40px 40px;
+  border: 5px dotted #90e6e6;
+  border-radius: 20px;
+}
+.app .container .draft-preview .content img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+.app .container .draft-preview .content .user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.app .container .draft-preview .content .user img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.app .container .draft-preview .content .user .info {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+.app .container .draft-preview .content .user .info p {
+  margin-bottom: 0;
+}
+.app .container .draft-preview .content .user .info span {
+  font-weight: bold;
+}
+.app .container .draft-preview .content .user .edit {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.app .container .draft-preview .content .user .edit img {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.app .container .draft-preview .content h1 {
+  font-size: 42px;
+  color: #333;
+}
+.app .container .draft-preview .content p {
+  text-align: justify;
+  line-height: 30px;
+  font-size: 16px;
 }
 #change-data .change {
   display: flex;
