@@ -72,8 +72,6 @@ export default function Write() {
       desc,
       cat,
       img: imgUrl || postState.img || '',
-      // img: file,
-      // img: 'http://114.132.214.26:3001/images/maka.jpg',
       date: moment(Date.now()).format('YYYY-MM-DD hh-mm-ss'),
       status
     }

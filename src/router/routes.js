@@ -16,6 +16,7 @@ const Publisheds = lazy(() => import('../pages/User/children/Publisheds'))
 const Userinfo = lazy(() => import('../pages/User/children/Userinfo'))
 
 const DraftPreview = lazy(() => import('../pages/DraftPreview'))
+const NotFound = lazy(() => import('../pages/NotFound'))
 
 
 
@@ -30,7 +31,7 @@ let router = [
       },
       {
         path: 'write',
-        element: <Write />
+        element: <Write />,
       },
       {
         path: 'post/:id',
@@ -56,20 +57,25 @@ let router = [
     children: [
       {
         path: '',
-        element: <Userinfo />
+        element: <Userinfo />,
       },
       {
         path: 'publisheds',
-        element: <Publisheds />
+        element: <Publisheds />,
       },
       {
         path: 'drafts',
-        element: <Drafts />
+        element: <Drafts />,
       },
     ]
-  }, {
+  },
+  {
     path: '/draft/:id',
-    element: <DraftPreview />
+    element: <DraftPreview />,
+  },
+  {
+    path: '/404',
+    element: <NotFound />
   }
 ]
 

@@ -54,7 +54,30 @@ export default function Single() {
         }
         setPost(res.data)
       } catch (error) {
-        message.warning('获取文章异常,请稍后尝试 !')
+        if (error.message.includes('401')) {
+          Modal.warning({
+            title: 'Tips',
+            content: (
+              <p>用户信息已过期, 请登录后重新进行操作 !</p>
+            ),
+            onOk() {
+              window.localStorage.removeItem('USER')
+              navigate('/login')
+            },
+            okText: '点击前往登录页面 '
+          });
+        } else {
+          Modal.warning({
+            title: 'Tips',
+            content: (
+              <p>获取文章异常,请稍后尝试 !</p>
+            ),
+            onOk() {
+              navigate(-1, { replace: true })
+            },
+            okText: '返回上一页 '
+          });
+        }
       }
     }
     getEffect()
@@ -90,7 +113,7 @@ export default function Single() {
             {post.userImg === 'null' ? <Avatar size={50} icon={<UserOutlined />} /> : <img src={post?.userImg} alt="" />}
             <div className='info'>
               <span>{post?.username}</span>
-              <p>发布时间 : {moment(post?.date).fromNow()}</p>
+              <p>创建时间 : {moment(post?.date).fromNow()}</p>
             </div>
             {
               currentUsername === post?.username && (

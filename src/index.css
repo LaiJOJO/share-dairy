@@ -892,6 +892,41 @@ body {
   line-height: 30px;
   font-size: 16px;
 }
+.app .container .not-found {
+  position: fixed;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../public/bgc.jpg');
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8vh;
+}
+.app .container .not-found .title {
+  color: #90e6e6;
+  font-size: 28vh;
+  font-weight: 500;
+}
+.app .container .not-found .desc {
+  font-size: 5vh;
+  margin-bottom: 6vh;
+}
+.app .container .not-found button {
+  width: 25vh;
+  height: 5vh;
+  font-size: 2vh;
+  font-weight: bold;
+  border-radius: 2.5vh;
+  cursor: pointer;
+  color: white;
+  background-color: teal;
+}
+.app .container .not-found button:hover {
+  background-color: white;
+  color: black;
+}
 #change-data .change {
   display: flex;
   flex-direction: column;
