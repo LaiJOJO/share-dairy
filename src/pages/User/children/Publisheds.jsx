@@ -1,13 +1,15 @@
 import React, { useCallback } from 'react'
-import { Pagination,Modal,message ,Empty} from 'antd'
+import { Pagination, Modal, message, Empty } from 'antd'
 import { useContext, useEffect, useState } from 'react';
 import domParser from '../../../units/dom-parser';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/authContext';
 import { getUserPublisheds } from '../../../axios/request';
+import { loginErrorFn } from '../../../units/errorFn';
 
 export default function Publisheds() {
   const navigate = useNavigate()
+  const { currentUsername, logout } = useContext(AuthContext)
   // 请求数据函数
   const getRequest = useCallback(async (username, page) => {
     try {
@@ -16,46 +18,20 @@ export default function Publisheds() {
       setPublisheds(res.data.publisheds)
       setPublishedsLength(res.data.length)
     } catch (error) {
-      if (error.message.includes('401')) {
-        Modal.warning({
-          title: 'Tips',
-          content: (
-            <p>用户信息已过期, 请登录后重新进行操作 !</p>
-          ),
-          onOk() {
-            window.localStorage.removeItem('USER')
-            navigate('/login')
-          },
-          okText: '点击前往登录页面 '
-        });
-      } else if (error.message.includes('403')) {
-        message.warning('无权限操作用户信息 !')
-      } else {
-        Modal.warning({
-          title: 'Tips',
-          content: (
-            <p>服务器异常, 请稍后尝试 !</p>
-          ),
-          onOk() {
-            navigate(-1, { replace: true })
-          },
-          okText: '返回上一页 '
-        });
-      }
+      loginErrorFn(error, Modal, message, navigate, logout)
     }
-  },[navigate])
+  }, [navigate,logout])
   // 跳转页触发函数
   const onChange = (pageNumber) => {
     // 页面改变重新请求数据
     getRequest(currentUsername, pageNumber)
   };
-  const { currentUsername } = useContext(AuthContext)
   const [publisheds, setPublisheds] = useState([])
   const [publishedsLength, setPublishedsLength] = useState(1)
   // 初始化请求第一页数据
   useEffect(() => {
     getRequest(currentUsername, 1)
-  }, [currentUsername,getRequest])
+  }, [currentUsername, getRequest])
   return (
     <div className='publisheds'>
       <span><h1>已发布文章</h1></span>
@@ -68,7 +44,7 @@ export default function Publisheds() {
                   <Link to={`/post/${item?.id}`} key={item.id} style={{ textDecoration: 'none' }}>
                     <div className="article">
                       <div className='img'>
-                        {item?.img && <img src={item?.img} alt={item.title} className='opacity' onLoad={(e)=>e.target.className='unopacity'}/>}
+                        {item?.img && <img src={item?.img} alt={item.title} className='opacity' onLoad={(e) => e.target.className = 'unopacity'} />}
                       </div>
                       <div className='post'>
                         <h6>{item.title}</h6>
@@ -80,7 +56,7 @@ export default function Publisheds() {
               })
             }
           </div>
-          : <div className="no-posts"><Empty/></div>}
+          : <div className="no-posts"><Empty /></div>}
       <div className='pages' style={{ margin: '0 auto' }}>
         <Pagination showQuickJumper defaultCurrent={1} total={publishedsLength} onChange={onChange} pageSize={3} />
       </div>

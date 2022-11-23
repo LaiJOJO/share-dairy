@@ -22,7 +22,7 @@ export default function Single() {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
   let postId = useParams().id
-  const { currentUsername } = useContext(AuthContext)
+  const { currentUsername,logout } = useContext(AuthContext)
   // 确认框的异步确认回调
   const handleOk = async () => {
     setConfirmLoading(true);
@@ -33,7 +33,7 @@ export default function Single() {
         navigate(-1, { replace: true })
       }
     } catch (error) {
-      loginErrorFn(error, Modal, message, navigate)
+      loginErrorFn(error, Modal, message, navigate,logout)
     }
     setOpen(false)
     setConfirmLoading(false)

@@ -82,3 +82,4 @@
   5. 图片透明化，加载完onload事件再添加非透明css，设置过渡时间
   6. 图片裁剪转化blob对象和base64时会存在跨域问题，导致toDataURL()转换成连接资源时报错，因此需要考虑到跨域问题，或者直接将上传的图片作为资源才能转换成canvas的连接资源
   7. 添加简易路由导航守卫，封装GuardRouter组件，根据传递的路由注册表routes进行useRoutes注册并返回；；app引用该守卫组件进行路由占位和展示，守卫组件利用useEffect配合守卫函数在组件挂载时进行路径判断，由于params参数会影响location的pathname属性，因此采用正则进行判断，同时进行页面登录权限认证
+  8. 过期登录的cookie导致清空localStorage可以直接执行logout操作 ;;

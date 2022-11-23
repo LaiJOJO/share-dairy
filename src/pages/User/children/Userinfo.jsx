@@ -7,9 +7,10 @@ import { Modal, message, Avatar,Tooltip,Empty } from 'antd'
 import domParser from '../../../units/dom-parser'
 import ChangeUser from '../../../components/ChangeUser'
 import ChangeImg from '../../../components/ChangeImg'
+import { loginErrorFn } from '../../../units/errorFn'
 
 export default function Userinfo() {
-  const { currentUsername, userImg } = useContext(AuthContext)
+  const { currentUsername, userImg,logout } = useContext(AuthContext)
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState(null)
   const [recommentPosts, setRecommentPosts] = useState([])
@@ -27,32 +28,7 @@ export default function Userinfo() {
         setUserInfo(userInfo.data)
         setRecommentPosts(recommentPosts.data)
       } catch (error) {
-        if (error.message.includes('401')) {
-          Modal.warning({
-            title: 'Tips',
-            content: (
-              <p>用户信息已过期, 请登录后重新进行操作 !</p>
-            ),
-            onOk() {
-              window.localStorage.removeItem('USER')
-              navigate('/login')
-            },
-            okText: '点击前往登录页面 '
-          });
-        } else if (error.message.includes('403')) {
-          message.warning('无权限操作用户信息 !')
-        } else {
-          Modal.warning({
-            title: 'Tips',
-            content: (
-              <p>服务器异常, 请稍后尝试 !</p>
-            ),
-            onOk() {
-              navigate(-1, { replace: true })
-            },
-            okText: '返回上一页 '
-          });
-        }
+        loginErrorFn(error, Modal, message, navigate,logout)
       }
     }
     getEffect()

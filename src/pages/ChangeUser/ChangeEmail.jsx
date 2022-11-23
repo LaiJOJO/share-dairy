@@ -23,30 +23,12 @@ export default function ChangeEmail() {
   const onSubmit = async function (data) {
     try {
       await postRegister(value)
-      message.success('注册成功')
+      message.success('修改邮箱成功')
       // 成功则跳转登录页面
       navigate('/login')
     } catch (error) {
-      // 收集错误信息，显示在页面上
-      if (error.message.includes('409')) {
-        setErr('用户名已存在或该邮箱已绑定其他用户 !')
-        Modal.confirm({
-          title: 'Tips',
-          content: (
-            <p>用户名已存在或该邮箱已绑定其他用户, 是否前往登录 ?</p>
-          ),
-          onOk() {
-            navigate('/register')
-          },
-          okText: '点击前往登录页面 ',
-          cancelText: '取消'
-        });
-      }else{
-        setErr(error.message)
-        message.warning('服务器异常, 请稍后尝试 !')
-      } 
+      changeErrorFn(error,Modal,message,navigate,setErr)
     }
-
   }
   // 监听输入变化更新state
   const handlerChange = function (event) {

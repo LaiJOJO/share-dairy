@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,11 +10,13 @@ import { UploadOutlined } from '@ant-design/icons'
 import { checkImgType } from '../../../units/checkImgType.js'
 import { loginErrorFn } from '../../../units/errorFn';
 import { scrollToTop } from '../../../units/scrollToTop';
+import { AuthContext } from '../../../context/authContext';
 
 export default function Write() {
   useEffect(() => {
     scrollToTop()
   }, [])
+  const { logout } = useContext(AuthContext)
   // 表单验证
   const { register, handleSubmit, formState: { errors } } = useForm();
   // 进度条
@@ -26,7 +28,7 @@ export default function Write() {
   // 先进行一次post上传图片至服务器，返回保存的图片文件名
   const upload = async () => {
     // 修改文件操作且文件state内部没有文件则不需要上传图片，直接返回传递的state的img原值
-    if(postState && !file){
+    if (postState && !file) {
       return Promise.resolve(postState.img)
     }
 
@@ -105,7 +107,7 @@ export default function Write() {
       };
       countDown()
     } catch (error) {
-      loginErrorFn(error, Modal, message, navigate)
+      loginErrorFn(error, Modal, message, navigate,logout)
     }
   }
 

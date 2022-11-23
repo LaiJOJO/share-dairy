@@ -22,7 +22,7 @@ export default function Single() {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
   let draftId = useParams().id
-  const { currentUsername } = useContext(AuthContext)
+  const { currentUsername,logout } = useContext(AuthContext)
   // 确认框的异步确认回调
   const handleOk = async () => {
     setConfirmLoading(true);
@@ -33,7 +33,7 @@ export default function Single() {
         navigate(-1, { replace: true })
       }
     } catch (error) {
-      loginErrorFn(error, Modal, message, navigate)
+      loginErrorFn(error, Modal, message, navigate,logout)
     }
     setOpen(false)
     setConfirmLoading(false)
@@ -54,30 +54,7 @@ export default function Single() {
         }
         setPost(res.data)
       } catch (error) {
-        if (error.message.includes('401')) {
-          Modal.warning({
-            title: 'Tips',
-            content: (
-              <p>用户信息已过期, 请登录后重新进行操作 !</p>
-            ),
-            onOk() {
-              window.localStorage.removeItem('USER')
-              navigate('/login')
-            },
-            okText: '点击前往登录页面 '
-          });
-        } else {
-          Modal.warning({
-            title: 'Tips',
-            content: (
-              <p>获取文章异常,请稍后尝试 !</p>
-            ),
-            onOk() {
-              navigate(-1, { replace: true })
-            },
-            okText: '返回上一页 '
-          });
-        }
+        loginErrorFn(error, Modal, message, navigate,logout)
       }
     }
     getEffect()
