@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className='not-found'>
       <span className='title'>404</span>
       <span className='desc'>页面走丢啦...... (Q A Q)</span>
-      <Link className='link' to='/'><span><button>返回首页</button></span></Link>
+      <Link className='link' to='/' replace><span><button>返回首页</button></span></Link>
     </div>
   )
 }

@@ -39,13 +39,13 @@ export default function Write() {
       }
       // 不属于可上传格式警告
       if (!checkImgType(file.name)) {
-        return Promise.reject(new Error('仅支持上传jpg、png、tif、gif、webp、jpeg、svg的图片'))
+        return Promise.reject(new Error('仅支持上传jpg、png、jpeg、svg格式的图片'))
       }
+      if (file.size > 3000000) return Promise.reject(new Error('图片大小不超过3M'))
       const newData = new FormData()
       newData.append('myfile', file) //这里自命名myfile
       // 设置进度条的setState函数也传递过去回传进度
       const res = await uploadPost(newData, setPercent)
-      // const res = await uploadPost(file)
       message.success('图片上传成功')
       return res.data
     } catch (error) {
@@ -79,7 +79,7 @@ export default function Write() {
     }
     try {
       await (postState ? updatePost(postData, postState.id) : addPost(postData))
-      message.success('创建成功 !')
+      message.success('上传成功 !')
       // 创建或者修改成功则3秒后跳转主页面
       const countDown = () => {
         let secondsToGo = 3;
