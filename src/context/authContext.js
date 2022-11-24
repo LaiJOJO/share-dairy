@@ -6,6 +6,7 @@ export const AuthContext = createContext()
 
 // context作为一个函数暴露，参数children即为外部引入包裹的<App/>,这里必须 {children} 因为下面返回值内部必须不能是对象
 export const AuthContextProvider = function ({ children }) {
+
   // 初始值本地存储的用户名
   const [username, setUsername] = useState(JSON.parse(localStorage.getItem('USER')) || null)
   const [userImg, setUserImg] = useState(JSON.parse(localStorage.getItem('USERIMG')) || null)

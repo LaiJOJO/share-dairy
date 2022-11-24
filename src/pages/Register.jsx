@@ -46,7 +46,6 @@ export default function Register() {
         message.warning('服务器异常, 请稍后尝试 !')
       }
     }
-
   }
   // 监听输入变化更新state
   const handlerChange = function (event) {
@@ -70,7 +69,7 @@ export default function Register() {
         {errors.email && <span className='red'>请输入正确的邮箱地址</span>}
 
         <button onClick={handleSubmit(onSubmit)}>注册</button>
-        {/* 有错误信息就显示 */}
+        {/* 有后台返回的错误信息就显示 */}
         {err && <p>{err}</p>}
         <span>点击前往登录页面 <Link to='/login'>Login</Link></span>
       </form>

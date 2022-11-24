@@ -1,15 +1,34 @@
 import { message, Modal } from 'antd';
-import React, { useState,useContext,useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { postChangeUsername, postChangeEmail, postChangePassword } from '../axios/request';
+import { postChangeUsername, postChangeEmail, postChangePassword } from '../axios/request.js';
 import { AuthContext } from '../context/authContext';
+import { checkUsername, checkPassword, checkEmail, checkRequired } from '../units/checkChangeUserInfo.js';
+import { CheckCircleTwoTone } from '@ant-design/icons'
+import { useEffect } from 'react';
 
 export default function ChangeUser(props) {
+  const { open, setOpen, changeData } = props
+
+  // 根据开关弹窗禁用提交信息,清空输入过的信息
+  useEffect(() => {
+    setIsDisable(true)
+    setChangeInfo({
+      oldUsername: '',
+      newUsername: '',
+      oldEmail: '',
+      newEmail: '',
+      oldPassword: '',
+      newPassword: ''
+    })
+  }, [open])
+
   const navigate = useNavigate()
   const { logout } = useContext(AuthContext)
 
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('');
+  const [fromData, setFormData] = useState({})
+  const [isDisable, setIsDisable] = useState(true)
   const [changeInfo, setChangeInfo] = useState({
     oldUsername: '',
     newUsername: '',
@@ -19,128 +38,46 @@ export default function ChangeUser(props) {
     newPassword: ''
   })
 
-  const { open, setOpen, changeData } = props
+  // 校验数据
+  const onCheck = async () => {
 
-  // 动态判断修改邮箱，用户名还是密码,动态保存更改的信息
-  function changeStates(changeData) {
     if (changeData === 'username') {
-      return setModalText(
-        <div className='change' >
-          <span><i>原用户名 : </i><input type="text" placeholder='原用户名' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldUsername = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>新用户名 :</i> <input type="text" placeholder='新用户名' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.newUsername = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>密码 : </i><input type="password" placeholder='密码' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldPassword = e.target.value
-              return state
-            })
-          }} /></span>
-        </div>
-      )
-    } else if (changeData === 'email') {
-      return setModalText(
-        <div className='change' >
-          <span><i>用户名 : </i><input type="text" placeholder='用户名' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldUsername = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>密码 : </i><input type="password" placeholder='密码' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldPassword = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>原邮箱 : </i><input type="text" placeholder='原邮箱' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldEmail = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>新邮箱 : </i><input type="text" placeholder='新邮箱'
-            onChange={(e) => {
-              setChangeInfo((state) => {
-                // 不需要视图更新，直接取对象地址修改就行
-                state.newEmail = e.target.value
-                return state
-              })
-            }} /></span>
-        </div>
-      )
-    } else {
-      return setModalText(
-        <div className='change' >
-          <span><i>用户名 : </i><input type="text" placeholder='用户名' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldUsername = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>原密码 : </i><input type="password" placeholder='原密码' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldPassword = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>新密码 : </i><input type="password" placeholder='新密码' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.newPassword = e.target.value
-              return state
-            })
-          }} /></span>
-          <span><i>邮 箱 : </i><input type="text" placeholder='邮箱' onChange={(e) => {
-            setChangeInfo((state) => {
-              // 不需要视图更新，直接取对象地址修改就行
-              state.oldEmail = e.target.value
-              return state
-            })
-          }} /></span>
-        </div>
-      )
+      if (checkRequired(changeInfo.oldUsername)) return message.warning('请输入原用户名')
+      if (!checkUsername(changeInfo.newUsername)) return message.warning('新用户名应由4-16位数字、字母和下划线组成')
+      if (checkRequired(changeInfo.oldPassword)) return message.warning('请输入密码')
+      setFormData({ 'oldUsername': changeInfo.oldUsername, 'newUsername': changeInfo.newUsername, 'password': changeInfo.oldPassword })
     }
+    else if (changeData === 'email') {
+      if (checkRequired(changeInfo.oldUsername)) return message.warning('请输入用户名')
+      if (checkRequired(changeInfo.oldPassword)) return message.warning('请输入密码')
+      if (checkRequired(changeInfo.oldEmail)) return message.warning('请输入原邮箱')
+      if (!checkEmail(changeInfo.newEmail)) return message.warning('请输入正确的新邮箱地址格式')
+      setFormData({ 'oldEmail': changeInfo.oldEmail, 'newEmail': changeInfo.newEmail, 'password': changeInfo.oldPassword, 'username': changeInfo.oldUsername })
+    }
+    else {
+      if (checkRequired(changeInfo.oldUsername)) return message.warning('请输入用户名')
+      if (checkRequired(changeInfo.oldPassword)) return message.warning('请输入原密码')
+      if (!checkPassword(changeInfo.newPassword)) return message.warning('密码应至少包含6位大小写字母和数字')
+      if (checkRequired(changeInfo.oldEmail)) return message.warning('请输入用户邮箱')
+      setFormData({ 'username': changeInfo.oldUsername, 'newPassword': changeInfo.newPassword, 'oldPassword': changeInfo.oldPassword, 'email': changeInfo.oldEmail })
+    }
+    // 通过则解除禁用
+    setIsDisable(false)
   }
-
-  useEffect(() => {
-    changeStates(changeData)
-  }, [changeData])
 
   // 点击提交时根据修改信息进行分类请求
   const handleOk = async () => {
-    setModalText('信息提交中......');
     setConfirmLoading(true);
-    // 发起ajax请求
     try {
       // 根据changeData的类型来确定修改什么信息,保存到formData中进行提交
       if (changeData === 'username') {
-        const formData = ({ oldUsername: changeInfo.oldUsername, newUsername: changeInfo.newUsername, password: changeInfo.oldPassword })
-        await postChangeUsername(formData)
+        await postChangeUsername(fromData)
       }
       else if (changeData === 'email') {
-        const formData = ({ oldEmail: changeInfo.oldEmail, newEmail: changeInfo.newEmail, password: changeInfo.oldPassword, username: changeInfo.oldUsername })
-        await postChangeEmail(formData)
+        await postChangeEmail(fromData)
       }
       else {
-        const formData = ({ username: changeInfo.oldUsername, newPassword: changeInfo.newPassword, oldPassword: changeInfo.oldPassword, email: changeInfo.oldEmail })
-        await postChangePassword(formData)
+        await postChangePassword(fromData)
       }
       // 改变用户信息操作后都需要进行重新登录，因此清空localStorage并跳转登录页面
       setOpen(false);
@@ -175,12 +112,11 @@ export default function ChangeUser(props) {
             <p>服务器异常, 请稍后尝试 !</p>
           ),
           onOk() {
-            navigate(-1, { replace: true })
+            navigate('/user', { replace: true })
           },
-          okText: '返回上一页 '
+          okText: '返回用户中心 '
         });
       }
-      changeStates(changeData)
     }
   };
 
@@ -198,8 +134,115 @@ export default function ChangeUser(props) {
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
+        okButtonProps={{ disabled: isDisable }}
       >
-        <div id='change-data'>{modalText}</div>
+        <div id='change-data'>
+          {/* 根据修改状态呈现不同的内容 */}
+          {changeData === 'username' && <div className='change' >
+            <span><i>原用户名 : </i><input type="text" placeholder='原用户名' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldUsername = e.target.value
+                return state
+              })
+            }} /></span>
+
+            <span><i>新用户名 :</i> <input type="text" placeholder='新用户名' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.newUsername = e.target.value
+                return state
+              })
+            }} /></span>
+
+            <span><i>密码 : </i><input type="password" placeholder='密码' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldPassword = e.target.value
+                return state
+              })
+            }} /></span>
+          </div>}
+
+          {changeData === 'email' && <div className='change' >
+            <span><i>用户名 : </i><input type="text" placeholder='用户名' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldUsername = e.target.value
+                return state
+              })
+            }} /></span>
+
+            <span><i>密码 : </i><input type="password" placeholder='密码' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldPassword = e.target.value
+                return state
+              })
+            }} /></span>
+
+            {/* eslint-disable-next-line */}
+            <span><i>原邮箱 : </i><input type="text" placeholder='原邮箱' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldEmail = e.target.value
+                return state
+              })
+            }} /></span>
+
+            {/* eslint-disable-next-line */}
+            <span><i>新邮箱 : </i><input type="text" placeholder='新邮箱'
+              onChange={(e) => {
+                setChangeInfo((state) => {
+                  // 不需要视图更新，直接取对象地址修改就行
+                  state.newEmail = e.target.value
+                  return state
+                })
+              }} /></span>
+
+          </div>}
+
+          {changeData === 'password' && <div className='change' >
+            <span><i>用户名 : </i><input type="text" placeholder='用户名' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldUsername = e.target.value
+                return state
+              })
+            }} /></span>
+
+            <span><i>原密码 : </i><input type="password" placeholder='原密码' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldPassword = e.target.value
+                return state
+              })
+            }} /></span>
+
+            <span><i>新密码 : </i><input type="password" placeholder='新密码' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.newPassword = e.target.value
+                return state
+              })
+            }} /></span>
+
+            {/* eslint-disable-next-line */}
+            <span><i>邮 箱 : </i><input type="text" placeholder='邮箱' onChange={(e) => {
+              setChangeInfo((state) => {
+                // 不需要视图更新，直接取对象地址修改就行
+                state.oldEmail = e.target.value
+                return state
+              })
+            }} /></span>
+          </div>}
+
+          <div className='check-info'>
+            <button onClick={onCheck} className='check'>验证信息格式</button>
+            <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '20px', display: isDisable ? 'none' : 'block' }} />
+          </div>
+
+        </div>
       </Modal>
     </div>
   )

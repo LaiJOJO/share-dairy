@@ -7,9 +7,11 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, FormOutlined, UserOutlined, FileD
 import { Layout, Menu, Avatar } from 'antd';
 import { useContext } from 'react';
 import Footer from '../../components/Footer'
+
 const { Header, Sider, Content } = Layout;
 
 export default function User() {
+
   // 根据刷新时的路由参数设置高亮key值，防止刷新时会默认1高亮
   const navigate = useNavigate()
   const location = useLocation()
@@ -93,7 +95,7 @@ export default function User() {
                     <span className='img'>
                       <img src={userImg} alt="头像" />
                     </span> :
-                    <Avatar style={{ backgroundColor: '#b9e7e7', verticalAlign: 'middle'}} size={50}>
+                    <Avatar style={{ backgroundColor: '#b9e7e7', verticalAlign: 'middle' }} size={50}>
                       {currentUsername?.[0] || 'U'}
                     </Avatar>
                 }

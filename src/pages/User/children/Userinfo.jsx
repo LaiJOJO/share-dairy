@@ -3,14 +3,15 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../../../context/authContext'
 import { getUserInfo, getUserRecommentPosts } from '../../../axios/request'
-import { Modal, message, Avatar,Tooltip,Empty } from 'antd'
+import { Modal, message, Avatar, Tooltip, Empty } from 'antd'
 import domParser from '../../../units/dom-parser'
 import ChangeUser from '../../../components/ChangeUser'
 import ChangeImg from '../../../components/ChangeImg'
 import { loginErrorFn } from '../../../units/errorFn'
 
 export default function Userinfo() {
-  const { currentUsername, userImg,logout } = useContext(AuthContext)
+
+  const { currentUsername, userImg, logout } = useContext(AuthContext)
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState(null)
   const [recommentPosts, setRecommentPosts] = useState([])
@@ -28,7 +29,7 @@ export default function Userinfo() {
         setUserInfo(userInfo.data)
         setRecommentPosts(recommentPosts.data)
       } catch (error) {
-        loginErrorFn(error, Modal, message, navigate,logout)
+        loginErrorFn(error, Modal, message, navigate, logout)
       }
     }
     getEffect()
@@ -45,17 +46,17 @@ export default function Userinfo() {
     <div className='user-info'>
       {/* 修改用户信息弹窗 */}
       <ChangeUser setOpen={setOpen} open={open} changeData={changeData} />
-      <ChangeImg setImgopen={setImgopen} imgopen={imgopen}/>
+      <ChangeImg setImgopen={setImgopen} imgopen={imgopen} />
 
       <div className='info'>
         {/* 头像 */}
-        <Tooltip title="点击修改头像" onClick={()=>setImgopen(true)}>
+        <Tooltip title="点击修改头像" onClick={() => setImgopen(true)}>
           {
             userImg && userImg !== 'null' ?
               <span className='img'>
-                <img src={ userImg} alt="头像" />
+                <img src={userImg} alt="头像" />
               </span> :
-              <Avatar shape='square' style={{ backgroundColor: '#b9e7e7', verticalAlign: 'middle' ,cursor:"pointer"}} size={100}>
+              <Avatar shape='square' style={{ backgroundColor: '#b9e7e7', verticalAlign: 'middle', cursor: "pointer" }} size={100}>
                 {currentUsername || 'U'}
               </Avatar>
           }
@@ -90,7 +91,7 @@ export default function Userinfo() {
                 })
               }
             </div>
-            : <div className="no-posts"><Empty/></div>}
+            : <div className="no-posts"><Empty /></div>}
       </div>
     </div>
   )
