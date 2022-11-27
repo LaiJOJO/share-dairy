@@ -1,12 +1,10 @@
 import React from 'react'
-import edit from '../img/content/edit.png'
-import del from '../img/content/del.png'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect, Fragment, useContext } from 'react'
 import { getDraft, deletePost } from '../axios/request'
 import moment from 'moment'
 import { AuthContext } from '../context/authContext.js'
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined,EditTwoTone,DeleteTwoTone } from '@ant-design/icons';
 import { Avatar, Modal, message, PageHeader, Tooltip } from 'antd';
 import { loginErrorFn } from '../units/errorFn'
 import { scrollToTop } from '../units/scrollToTop'
@@ -22,7 +20,7 @@ export default function Single() {
   const [confirmLoading, setConfirmLoading] = useState(false)
   const navigate = useNavigate()
   let draftId = useParams().id
-  const { currentUsername,logout } = useContext(AuthContext)
+  const { currentUsername, logout } = useContext(AuthContext)
   // 确认框的异步确认回调
   const handleOk = async () => {
     setConfirmLoading(true);
@@ -33,7 +31,7 @@ export default function Single() {
         navigate(-1, { replace: true })
       }
     } catch (error) {
-      loginErrorFn(error, Modal, message, navigate,logout)
+      loginErrorFn(error, Modal, message, navigate, logout)
     }
     setOpen(false)
     setConfirmLoading(false)
@@ -54,7 +52,7 @@ export default function Single() {
         }
         setPost(res.data)
       } catch (error) {
-        loginErrorFn(error, Modal, message, navigate,logout)
+        loginErrorFn(error, Modal, message, navigate, logout)
       }
     }
     getEffect()
@@ -97,11 +95,11 @@ export default function Single() {
                 <div className="edit">
                   <Tooltip title="点击前往编辑" >
                     <Link to={`/write?edit=${post?.id}`} state={post}>
-                      <img src={edit} alt="edit" title='编辑' />
+                      <EditTwoTone />
                     </Link>
                   </Tooltip>
                   <Tooltip title="点击删除草稿!" >
-                    <img src={del} alt="delete" title='删除' onClick={onDelete} />
+                    <DeleteTwoTone onClick={onDelete} />
                   </Tooltip>
                 </div>
               )

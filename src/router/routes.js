@@ -14,6 +14,7 @@ const User = lazy(() => import('../pages/User/User'))
 const Drafts = lazy(() => import('../pages/User/children/Drafts'))
 const Publisheds = lazy(() => import('../pages/User/children/Publisheds'))
 const Userinfo = lazy(() => import('../pages/User/children/Userinfo'))
+const Collection = lazy(() => import('../pages/User/children/Collection'))
 
 const DraftPreview = lazy(() => import('../pages/DraftPreview'))
 const NotFound = lazy(() => import('../pages/NotFound'))
@@ -66,6 +67,10 @@ let router = [
       {
         path: 'drafts',
         element: <Drafts />,
+      },
+      {
+        path: 'collection',
+        element: <Collection />,
       },
     ]
   },

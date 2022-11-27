@@ -3,7 +3,7 @@ import { PageHeader } from 'antd'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { scrollToTop } from '../../units/scrollToTop'
 import { AuthContext } from '../../context/authContext'
-import { MenuFoldOutlined, MenuUnfoldOutlined, FormOutlined, UserOutlined, FileDoneOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, FormOutlined, UserOutlined, FileDoneOutlined, StarOutlined } from '@ant-design/icons';
 import { Layout, Menu, Avatar } from 'antd';
 import { useContext } from 'react';
 import Footer from '../../components/Footer'
@@ -21,6 +21,9 @@ export default function User() {
       return ('2')
     } else if (path === '/user/drafts') {
       return ('3')
+    }
+    else if (path === '/user/collection') {
+      return ('4')
     } else {
       return ('1')
     }
@@ -64,7 +67,7 @@ export default function User() {
                 {
                   key: '2',
                   icon: <FileDoneOutlined />,
-                  label: '发布文章',
+                  label: '分享文章',
                   onClick: () => {
                     navigate('/user/publisheds')
                   }
@@ -75,6 +78,14 @@ export default function User() {
                   label: '文章草稿',
                   onClick: () => {
                     navigate('/user/drafts')
+                  }
+                },
+                {
+                  key: '4',
+                  icon: <StarOutlined />,
+                  label: '我的收藏',
+                  onClick: () => {
+                    navigate('/user/collection')
                   }
                 },
               ]}

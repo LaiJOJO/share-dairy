@@ -9,8 +9,9 @@ export default function Search() {
   const { Panel } = Collapse;
   // 点击搜索跳转
   const onSearch = (value) => { 
-    if(value === '') return
-    navigate(`/search/?keyword=${value}`)
+    let keyword = value.trim()
+    if(keyword === '') return
+    navigate(`/search/?keyword=${keyword}`)
    }
   const [text, setText] = useState('点击展开搜索框')
   const changeText = () => {

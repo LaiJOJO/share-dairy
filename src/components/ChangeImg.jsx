@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export default function ChangeImg(props) {
 
   // 获取context的setImg方法，修改后重置所有头像
-  const { setUserImg, userImg ,logout} = useContext(AuthContext)
+  const { setUserImg, userImg, logout } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const { setImgopen, imgopen } = props
@@ -23,6 +23,21 @@ export default function ChangeImg(props) {
   const [file, setFile] = useState(null)
   const [btnLoading, setBtnLoading] = useState(false)
 
+  // 点击预览触发函数
+  const onPreview = async () => {
+    if (!file) return message.info('未上传图片')
+    if (editor) {
+      setBtnLoading(true)
+      // 将方框内的裁剪部分图片转换成canvas支持的资源形式
+      const canvas = editor.getImageScaledToCanvas().toDataURL()
+      // 再将资源转换成blob形式并生成连接，保存到setImgUrl的state中，使react页面刷新
+      setImgUrl(blobToUrl(await base64ToBlob(canvas)))
+      setBtnLoading(false)
+    } else {
+      message.info('未上传图片')
+    }
+  }
+
   // 上传文件时要检测格式和大小
   const uploadImg = (e) => {
     let file = e.target.files[0]
@@ -32,8 +47,9 @@ export default function ChangeImg(props) {
     setFile(e.target.files[0])
   }
 
+  // 确认上传图片
   const handleOk = async () => {
-    if(!file) return message.info('请上传图片')
+    if (!file) return message.info('请上传图片')
     setConfirmLoading(true)
     // 生成base64格式字符串
     try {
@@ -92,21 +108,6 @@ export default function ChangeImg(props) {
 
   let editor = null
 
-  // 点击预览触发函数
-  const onClickSave = async () => {
-    if (!file) return message.info('请上传图片')
-    if (editor) {
-      setBtnLoading(true)
-      // 将方框内的裁剪部分图片转换成canvas支持的资源形式
-      const canvas = editor.getImageScaledToCanvas().toDataURL()
-      // 再将资源转换成blob形式并生成连接，保存到setImgUrl的state中，使react页面刷新
-      setImgUrl(blobToUrl(await base64ToBlob(canvas)))
-      setBtnLoading(false)
-    } else {
-      message.info('未上传图片')
-    }
-  }
-
   // 1. 剪辑框通过ref属性触发函数(图片资源变化，大小，旋转角度变化都会触发 )，将裁剪的文件传递到参数
   const setEditorRef = (editorValue) => {
     editor = editorValue
@@ -152,7 +153,7 @@ export default function ChangeImg(props) {
             </div>}
             <div className='upload-file'>
               <div className='btn-preview'>
-                <Button type="primary" loading={btnLoading} onClick={onClickSave}>
+                <Button type="primary" loading={btnLoading} onClick={onPreview}>
                   点击预览 <SearchOutlined />
                 </Button>
               </div>

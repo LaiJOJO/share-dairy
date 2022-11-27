@@ -14,11 +14,11 @@ export const postLogout = () => {
 }
 
 // 获取文章
-export const getPosts = (cat, page,pageSize) => {
+export const getPosts = (cat, page, pageSize) => {
   return request({ url: `/posts/getposts/?cat=${cat}&page=${page - 1}&pagesize=${pageSize}`, method: 'GET' })
 }
 
-export const getSearchPosts = (keyword,page,pageSize)=>{
+export const getSearchPosts = (keyword, page, pageSize) => {
   return request({ url: `/posts/getsearch/?keyword=${keyword}&page=${page - 1}&pagesize=${pageSize}`, method: 'GET' })
 }
 
@@ -76,8 +76,8 @@ export const postChangePassword = (formData) => {
   return request({ url: `/users/changepassword`, method: 'POST', data: formData })
 }
 // 修改头像
-export const postChangeImg = (base64)=>{
-  return request({ url: `/users/changeimg`, method: 'POST', data: {image:base64} })
+export const postChangeImg = (base64) => {
+  return request({ url: `/users/changeimg`, method: 'POST', data: { image: base64 } })
 }
 
 // 获取对应用户文章
@@ -87,4 +87,34 @@ export const getUserPublisheds = (username, page) => {
 // 获取用户草稿
 export const getUserDrafts = (username, page) => {
   return request({ url: `/users/getusedrafts/?username=${username}&page=${page}`, method: 'GET' })
-} 
+}
+
+// 添加收藏
+export const postAddCollect = (postId) => {
+  return request({url:`/interact/addcollect/${postId}`,method:'POST'})
+}
+
+export const postAddLike = (postId) => {
+  return request({url:`/interact/addlike/${postId}`,method:'POST'})
+}
+
+// 检测收藏点赞
+export const getLikeStatus = (postId) => {
+  return request({url:`/interact/islike/${postId}`,method:'GET'})
+}
+export const getCollectStatus = (postId) => {
+  return request({url:`/interact/iscollect/${postId}`,method:'GET'})
+}
+
+// 取消收藏点赞
+export const postDelLike = (postId) => {
+  return request({url:`/interact/dislike/${postId}`,method:'POST'})
+}
+export const postDelCollect = (postId) => {
+  return request({url:`/interact/discollect/${postId}`,method:'POST'})
+}
+
+// 获取收藏列表
+export const getCollections = (username, page,pagesize) => {
+  return request({ url: `/users/getusercollections/?username=${username}&page=${page}&pagesize=${pagesize}`, method: 'GET' })
+}

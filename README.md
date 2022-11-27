@@ -1,4 +1,4 @@
-##文件布局
+
 
 ## 相关包
   1. react-router-dom
@@ -11,11 +11,6 @@
   8. react-simple-verify  --  滑动验证包
   9. react-lazyload  --  实现懒加载，导入Lazyload直接包裹图片容器，原理是利用intersectionObserver配合useState设置是否可见状态进行展示
   10. react-avatar-editor -- 图片裁剪器 
-
-## 1. 创建SPA路由,创建路由注册表
-    a. <Fragment>代替组件的包裹容器
-    b. <Navigate>重定向
-    c. 使用一个less文件样式
 
 ## LOGIN and REGISTER
   a. 采用flex布局
@@ -49,13 +44,13 @@
   1. 文章根据浏览器url的query参数的cat类型进行文章请求,使用useState的hook进行保存
   2. 过滤富文本编辑器的标签
 
-## Single
+## Single文章详情
   a. 根据params参数获取指定id的post文章
   b. 发起删除操作,注意当本地存储的currentUsername和文章的postUsername相同才显示删除键
   c. 过滤html标签再输出文本内容
   d. 请求无该类文章时，会返回首页
 
-## Write
+## Write创建 && 更新页面
   a. 收集title，file(图片),desc,cat
   b. 由详情页跳转编辑的携带state参数，将参数作为输入框默认值
   c. 根据有无state传参判断是创建还是更改
@@ -73,6 +68,10 @@
 ## ChangeImg修改用户头像，使用editor剪裁配合滑动条实现裁剪文件上传
   1. 上传图片的base64字符串(即canvas变量)，数据库用text保存，img标签可以直接识别base64字符串进行图片展示
   2. 裁剪框优先展示base64资源，上传图片点击预览会将base64转换成blob连接嵌入预览图框
+
+## collection 收藏页面
+  1. 点赞收藏功能再在single页面进行操作
+  2. 请求的收藏列表点击跳转详情页
 
 ## 优化
   1. 暴露setState状态的set函数，在axios拦截器进行设置bool影响loading界面

@@ -6,7 +6,7 @@ export default function Footer() {
     <footer>
       <div className='footer'>
         <img src={logo} alt="logo" />
-        <span>Welcome to JOJO Blog <span style={{'color':'red','fontSize':'16px'}}>❤</span></span>
+        <span>Welcome to Share-Dairy <span style={{'color':'red','fontSize':'16px'}}>❤</span></span>
       </div>
     </footer>
   )

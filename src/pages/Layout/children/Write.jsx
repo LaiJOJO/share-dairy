@@ -79,7 +79,7 @@ export default function Write() {
     }
     try {
       await (postState ? updatePost(postData, postState.id) : addPost(postData))
-      message.success('上传成功 !')
+      status === 'published' ? message.success('文章分享成功') : message.success('已存为草稿')
       // 创建或者修改成功则3秒后跳转主页面
       const countDown = () => {
         let secondsToGo = 3;
