@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { getRecommentPosts } from '../axios/request'
 import { Link } from 'react-router-dom'
+import LazyLoad from 'react-lazyload'
 
 export default function Recomment({ cat }) {
   const [posts, setPost] = useState([])
@@ -23,7 +24,9 @@ export default function Recomment({ cat }) {
         posts.map(post => {
           return (
             <div className='post' key={post?.id}>
-              <img src={post?.img} alt={post?.title} className='opacity' onLoad={(e) => e.target.className = 'unopacity'} />
+              <LazyLoad>
+                <img src={post?.img} alt={post?.title} className='opacity' onLoad={(e) => e.target.className = 'unopacity'} />
+              </LazyLoad>
               <h2>{post.title}</h2>
               <Link to={`/post/${post?.id}`}><button>查看文章</button></Link>
             </div>

@@ -4,7 +4,7 @@ import { useState, useEffect, Fragment, useContext } from 'react'
 import { getDraft, deletePost } from '../axios/request'
 import moment from 'moment'
 import { AuthContext } from '../context/authContext.js'
-import { UserOutlined,EditTwoTone,DeleteTwoTone } from '@ant-design/icons';
+import { UserOutlined, EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { Avatar, Modal, message, PageHeader, Tooltip } from 'antd';
 import { loginErrorFn } from '../units/errorFn'
 import { scrollToTop } from '../units/scrollToTop'

@@ -71,3 +71,35 @@ export const interactErrorFn = function(error,Modal,message,navigate){
     message.warning('服务器异常, 请稍后尝试 !')
   } 
 }
+
+// 评论回复错误
+export const commentErrorFn = function(error,Modal,message,navigate){
+  if (error.message.includes('401')) {
+    Modal.confirm({
+      title: 'Tips',
+      content: (
+        <p>请重新登录进行操作</p>
+      ),
+      onOk() {
+        navigate('/login')
+      },
+      okText: '点击前往登录页面 ',
+      cancelText: '继续浏览'
+    });
+  }else if(error.message.includes('403')){
+    Modal.confirm({
+      title: 'Tips',
+      content: (
+        <p>无操作权限,请确认登录信息</p>
+      ),
+      onOk() {
+        navigate('/login')
+      },
+      okText: '点击前往登录页面 ',
+      cancelText: '继续浏览'
+    });
+  }
+  else{
+    message.warning('服务器异常, 请稍后尝试 !')
+  } 
+}

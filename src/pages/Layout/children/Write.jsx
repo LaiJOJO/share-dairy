@@ -11,6 +11,7 @@ import { checkImgType } from '../../../units/checkImgType.js'
 import { loginErrorFn } from '../../../units/errorFn';
 import { scrollToTop } from '../../../units/scrollToTop';
 import { AuthContext } from '../../../context/authContext';
+import { sensitiveWordsParser, checkSensitiveWords } from '../../../units/sensitiveWordsReg';
 
 export default function Write() {
   useEffect(() => {
@@ -62,6 +63,14 @@ export default function Write() {
     if (cat.length <= 0) {
       return message.warning('请选择文章分类 !');
     }
+    if (checkSensitiveWords(title)) {
+      setTitle(sensitiveWordsParser(title))
+      return message.warning('标题包含敏感词汇')
+    }
+    if (checkSensitiveWords(desc)) {
+      setTitle(sensitiveWordsParser(desc))
+      return message.warning('文章内容包含敏感词汇')
+    }
     let imgUrl = ''
     try {
       imgUrl = await upload()
@@ -74,7 +83,7 @@ export default function Write() {
       desc,
       cat,
       img: imgUrl || postState.img || '',
-      date: moment(Date.now()).format('YYYY-MM-DD hh-mm-ss'),
+      date: moment(Date.now()).format('YYYY-MM-DD HH-mm-ss'),
       status
     }
     try {
@@ -107,7 +116,7 @@ export default function Write() {
       };
       countDown()
     } catch (error) {
-      loginErrorFn(error, Modal, message, navigate,logout)
+      loginErrorFn(error, Modal, message, navigate, logout)
     }
   }
 

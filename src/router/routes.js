@@ -19,6 +19,8 @@ const Collection = lazy(() => import('../pages/User/children/Collection'))
 const DraftPreview = lazy(() => import('../pages/DraftPreview'))
 const NotFound = lazy(() => import('../pages/NotFound'))
 
+const CommentReply = lazy(() => import('../pages/CommentReply'))
+
 
 
 let router = [
@@ -77,6 +79,10 @@ let router = [
   {
     path: '/draft/:id',
     element: <DraftPreview />,
+  },
+  {
+    path: '/comment/:id',
+    element: <CommentReply />
   },
   {
     path: '/404',

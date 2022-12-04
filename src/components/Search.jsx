@@ -13,12 +13,12 @@ export default function Search() {
     if(keyword === '') return
     navigate(`/search/?keyword=${keyword}`)
    }
-  const [text, setText] = useState('点击展开搜索框')
+  const [text, setText] = useState('展开搜索框')
   const changeText = () => {
-      if (text === '点击展开搜索框') {
-      setText('点击关闭搜索框')
+      if (text === '展开搜索框') {
+      setText('关闭搜索框')
     } else {
-      setText('点击展开搜索框')
+      setText('展开搜索框')
     }
   }
   return (

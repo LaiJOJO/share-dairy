@@ -58,7 +58,7 @@ export default function Publisheds() {
           </div>
           : <div className="no-posts"><Empty /></div>}
       <div className='pages' style={{ margin: '0 auto' }}>
-        <Pagination showQuickJumper defaultCurrent={1} total={publishedsLength} onChange={onChange} pageSize={3} />
+        <Pagination showQuickJumper defaultCurrent={1} total={publishedsLength} onChange={onChange} pageSize={3} showSizeChanger={false}/>
       </div>
     </div>
   )

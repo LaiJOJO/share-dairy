@@ -91,30 +91,58 @@ export const getUserDrafts = (username, page) => {
 
 // 添加收藏
 export const postAddCollect = (postId) => {
-  return request({url:`/interact/addcollect/${postId}`,method:'POST'})
+  return request({ url: `/interact/addcollect/${postId}`, method: 'POST' })
 }
 
 export const postAddLike = (postId) => {
-  return request({url:`/interact/addlike/${postId}`,method:'POST'})
+  return request({ url: `/interact/addlike/${postId}`, method: 'POST' })
 }
 
 // 检测收藏点赞
 export const getLikeStatus = (postId) => {
-  return request({url:`/interact/islike/${postId}`,method:'GET'})
+  return request({ url: `/interact/islike/${postId}`, method: 'GET' })
 }
 export const getCollectStatus = (postId) => {
-  return request({url:`/interact/iscollect/${postId}`,method:'GET'})
+  return request({ url: `/interact/iscollect/${postId}`, method: 'GET' })
 }
 
 // 取消收藏点赞
 export const postDelLike = (postId) => {
-  return request({url:`/interact/dislike/${postId}`,method:'POST'})
+  return request({ url: `/interact/dislike/${postId}`, method: 'POST' })
 }
 export const postDelCollect = (postId) => {
-  return request({url:`/interact/discollect/${postId}`,method:'POST'})
+  return request({ url: `/interact/discollect/${postId}`, method: 'POST' })
 }
 
 // 获取收藏列表
-export const getCollections = (username, page,pagesize) => {
+export const getCollections = (username, page, pagesize) => {
   return request({ url: `/users/getusercollections/?username=${username}&page=${page}&pagesize=${pagesize}`, method: 'GET' })
+}
+// 添加评论
+export const postAddComment = (postId, formdata) => {
+  return request({ url: '/interact/addcomment', method: 'POST', data: { postId, formdata } })
+}
+// 拉取评论
+export const getComments = (postId, page, pageSize) => {
+  return request({ url: `/interact/getcomments/?postid=${postId}&page=${page}&pagesize=${pageSize}`, method: 'GET' })
+}
+export const getComment = (commentId) => {
+  return request({ url: `/interact/getcomment/?commentid=${commentId}`, method: 'GET' })
+}
+
+// 拉取评论的回复
+export const getCommentReply = (commentId, page, pageSize) => {
+  return request({ url: `/interact/getcommentreply/?commentid=${commentId}&page=${page}&pagesize=${pageSize}`, method: 'GET' })
+}
+// 添加二级评论或回复
+export const postAddReply = (formData) => {
+  return request({ url: `/interact/postaddreply`, method: 'POST', data: formData })
+}
+
+// 删除评论和回复
+export const postDelComment = (commentId) => {
+  return request({ url: `/interact/postdelcomment`, method: 'POST', data: {commentId} })
+}
+export const postDelReply = (replyId) => {
+  return request({ url: `/interact/postdelreply`, method: 'POST', data: {replyId} })
 }

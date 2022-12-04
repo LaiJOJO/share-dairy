@@ -5,6 +5,7 @@ import 'moment/locale/zh-cn'
 import { useState } from 'react';
 import zhCN from 'antd/es/locale/zh_CN';
 import GuardRouter from './components/GuardRouter';
+import FloatButton from './components/FloatButton';
 
 function App() {
   const [isLoading, setLoading] = useState(false)
@@ -14,6 +15,7 @@ function App() {
       <Spin tip="加载中..." size="large" spinning={isLoading}>
         <div className='app'>
           <div className='container'>
+            <FloatButton />
             {GuardRouter(router)}
           </div>
         </div>

@@ -67,7 +67,7 @@ export default function Home() {
       }
       {/* 每页6篇 */}
       <div className='pages' style={{ margin: '0 auto' }}>
-        <Pagination showQuickJumper defaultCurrent={1} total={postsLength} onChange={onChange} pageSize={6} />
+        <Pagination showQuickJumper defaultCurrent={1} total={postsLength} onChange={onChange} pageSize={6} showSizeChanger={false}/>
       </div>
     </div>
   )
