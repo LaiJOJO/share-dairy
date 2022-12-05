@@ -49,7 +49,7 @@ export default function SearchRes() {
                     </div>
                     <div className='content'>
                       <Link className='link' to={`/post/${post?.id}`}><h1>{post?.title}</h1></Link>
-                      <p>{domParser(post?.description)}</p>
+                      <p>{domParser(post?.description).slice(0,100)}</p>
                       <Link className='link' to={`/post/${post?.id}`}><button>Get More</button></Link>
                     </div>
                   </li>

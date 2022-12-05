@@ -49,7 +49,7 @@ export default function Drafts() {
                       </div>
                       <div className='post'>
                         <h6>{item.title}</h6>
-                        <p>{domParser(item.description)}</p>
+                        <p>{domParser(item.description).slice(0,100)}</p>
                       </div>
                     </div>
                   </Link>

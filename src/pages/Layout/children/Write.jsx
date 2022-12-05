@@ -14,9 +14,12 @@ import { AuthContext } from '../../../context/authContext';
 import { sensitiveWordsParser, checkSensitiveWords } from '../../../units/sensitiveWordsReg';
 
 export default function Write() {
+  // 根据state传参判断是更新还是写入新文章
+  const postState = useLocation().state
   useEffect(() => {
     scrollToTop()
-  }, [])
+    if (postState) setDesc(postState.description)
+  }, [postState])
   const { logout } = useContext(AuthContext)
   // 表单验证
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -24,8 +27,6 @@ export default function Write() {
   const [percent, setPercent] = useState(0);
 
   const navigate = useNavigate()
-  // 根据state传参判断是更新还是写入新文章
-  const postState = useLocation().state
   // 先进行一次post上传图片至服务器，返回保存的图片文件名
   const upload = async () => {
     // 修改文件操作且文件state内部没有文件则不需要上传图片，直接返回传递的state的img原值
@@ -120,7 +121,7 @@ export default function Write() {
     }
   }
 
-  const [desc, setDesc] = useState(postState ? postState.description : '');
+  const [desc, setDesc] = useState('');
   const [title, setTitle] = useState(postState ? postState.title : '');
   const [cat, setCat] = useState(postState ? postState.cat : '');
   const [file, setFile] = useState(null);

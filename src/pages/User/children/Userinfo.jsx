@@ -83,7 +83,7 @@ export default function Userinfo() {
                         </div>
                         <div className='post'>
                           <h6>{item.title}</h6>
-                          <p>{domParser(item.description)}</p>
+                          <p>{domParser(item.description).slice(0,50)}</p>
                         </div>
                       </div>
                     </Link>

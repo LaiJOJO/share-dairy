@@ -49,13 +49,12 @@ export default function Home() {
                   <li className='post' key={post?.id}>
                     <div className='img'>
                       <Lazyload className='wid'>
-                        {/* {post?.img && <img className='opacity' src={require('../../../../public/uploads/' + post?.img)} alt={post?.title} onLoad={(e) => e.target.className = 'unopacity'} />} */}
                         {post?.img && <img className='opacity' src={post?.img} alt={post?.title} onLoad={(e) => e.target.className = 'unopacity'} />}
                       </Lazyload>
                     </div>
                     <div className='content'>
                       <Link className='link' to={`/post/${post?.id}`}><h1>{post?.title}</h1></Link>
-                      <p>{domParser(post?.description)}</p>
+                      <p>{domParser(post?.description).slice(0,100)}</p>
                       <Link className='link' to={`/post/${post?.id}`}><button>Get More</button></Link>
                     </div>
                   </li>
