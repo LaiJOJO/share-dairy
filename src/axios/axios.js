@@ -1,9 +1,9 @@
 import axios from 'axios'
 import { setLoad } from '../App';
 const request = axios.create({
-  // baseURL: 'http://192.168.175.131:8008/api',
-  baseURL: 'http://localhost:8008/api',
-  timeout: 10000,
+  baseURL: 'http://192.168.175.131:8008/api',
+  // baseURL: 'http://localhost:8008/api',
+  timeout: 20000,
   withCredentials: true
 })
 // 请求拦截器

@@ -46,6 +46,10 @@ export const uploadPost = (newData, setPercent) => {
     }
   })
 }
+// 上传富文本编辑器图片
+export const uploadDescImg = (newData) => {
+  return request({url: `/posts/uploaddescimg`, method: 'Post', data: newData})
+}
 
 export const addPost = (fromData) => {
   return request({ url: `/posts/addpost`, method: 'Post', data: fromData })

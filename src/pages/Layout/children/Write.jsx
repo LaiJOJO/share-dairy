@@ -1,30 +1,172 @@
-import React, { useState, useEffect, useContext } from 'react'
-import ReactQuill from 'react-quill';
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import ReactQuill, { Quill } from 'react-quill';
+import { ImageDrop } from 'quill-image-drop-module';
+import ImageResize from 'quill-image-resize-module';
+import QuillImageDropAndPaste from 'quill-image-drop-and-paste'
 import 'react-quill/dist/quill.snow.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { uploadPost, addPost, updatePost } from '../../../axios/request';
+import { uploadPost, addPost, updatePost, uploadDescImg } from '../../../axios/request';
 import moment from 'moment'
 import { useForm } from "react-hook-form";
 import { message, Progress, Button, Modal } from 'antd';
 import { UploadOutlined } from '@ant-design/icons'
-import { checkImgType } from '../../../units/checkImgType.js'
-import { loginErrorFn } from '../../../units/errorFn';
+import { checkImgType, checkImgBase64 } from '../../../units/checkImgType.js'
+import { convertBase64UrlToBlob } from '../../../units/base64ToBlob';
+import { loginErrorFn, uploadImgErrorFn } from '../../../units/errorFn';
 import { scrollToTop } from '../../../units/scrollToTop';
 import { AuthContext } from '../../../context/authContext';
 import { sensitiveWordsParser, checkSensitiveWords } from '../../../units/sensitiveWordsReg';
 
+Quill.register('modules/imageDropAndPaste', QuillImageDropAndPaste)
+
+let fontFamily = ['宋体', '黑体', '微软雅黑', '楷体', '仿宋', 'Arial', '苹方'];
+Quill.imports['attributors/style/font'].whitelist = fontFamily;
+Quill.register(Quill.imports['attributors/style/font']);
+// 自定义文字大小
+let fontSize = ['10px', '12px', '14px', '16px', '20px', '24px', '36px']
+Quill.imports['attributors/style/size'].whitelist = fontSize;
+Quill.register(Quill.imports['attributors/style/size']);
+
+Quill.register('modules/imageDrop', ImageDrop);
+Quill.register('modules/imageResize', ImageResize);
+
+
 export default function Write() {
   // 根据state传参判断是更新还是写入新文章
   const postState = useLocation().state
+  // 用来鉴别是否为改变值的黏贴而不是第一次进入页面
   useEffect(() => {
     scrollToTop()
-    if (postState) setDesc(postState.description)
+    if (postState) {
+      setDesc(postState.description)
+    }
   }, [postState])
   const { logout } = useContext(AuthContext)
   // 表单验证
   const { register, handleSubmit, formState: { errors } } = useForm();
   // 进度条
   const [percent, setPercent] = useState(0);
+
+  // 富文本图片上传
+  const refQuill = useRef()
+
+  // 工具栏图标触发
+  const imageHandler = function () {
+    // 新建隐藏的文件输入框
+    const input = document.createElement('input')
+    input.setAttribute('type', 'file')
+    input.setAttribute('accept', 'image/*')
+    input.click()
+    input.onchange = async (e) => {
+      e.preventDefault()
+      const file = e.target.files[0]
+      if (!checkImgType(file.name) || file.size > 1000000) {
+        return message.info('仅支持上传jpg、png、jpeg、svg格式、容量1M大小的图片')
+      }
+      const fd = new FormData()
+      fd.append('descfile', file)
+      try {
+        const res = await uploadDescImg(fd)
+        const link = res.data;
+        const quill = refQuill.current.getEditor();//获取到编辑器本身
+        const cursorPosition = quill.getSelection().index;//获取当前光标位置
+        quill.insertEmbed(cursorPosition, "image", link, Quill.sources.USER);//插入图片
+        quill.setSelection(cursorPosition + 1);//光标位置加1
+      } catch (error) {
+        uploadImgErrorFn(error, Modal, message, navigate)
+      }
+      return false
+    }
+  }
+  // 劫持黏贴文本，过滤纯文本信息和匹配base64格式进行上传
+  const customImgForPaste = function (node, delta) {
+    // 粘贴时将纯文本和非base64格式的图片过滤出来显示，base64的则进行上传数据库处理 ；；由于黏贴时无法获取光标，因此直接取最大值，会导致图片都是base64时会一并出现在文字体后面
+    let ops = []
+    delta.ops.forEach(async op => {
+      if (op.insert && (typeof op.insert === 'string' || !checkImgBase64(op.insert.image))) {
+        ops.push({
+          insert: op.insert
+        })
+      } else {
+        try {
+          let file = convertBase64UrlToBlob(op.insert.image)
+          const fd = new FormData();
+          fd.append('descfile', file);
+          const res = await uploadDescImg(fd)
+          const link = res.data;
+          // 编辑器插入图片
+          let quill = refQuill.current.getEditor();//获取到编辑器本身
+          const cursorPosition = 999999;//获取当前光标位置
+          quill.insertEmbed(cursorPosition, "image", link, Quill.sources.USER);//插入图片
+          quill.setSelection(cursorPosition + 1);//光标位置加1
+        } catch (error) {
+          uploadImgErrorFn(error, Modal, message, navigate)
+        }
+      }
+    })
+    delta.ops = ops
+    return delta
+  }
+  // 拖曳base64格式处理函数
+  const imageDropHandler = async function (imageDataUrl, type, imageData) {
+    const file = imageData.toFile()
+    if (!checkImgType(file.name) || file.size > 1000000) {
+      return message.info('仅支持上传jpg、png、jpeg、svg格式、容量1M大小的图片')
+    }
+    const formData = new FormData()
+    formData.append('descfile', file)
+    try {
+      const res = await uploadDescImg(formData)
+      const link = res.data;
+      let quill = refQuill.current.getEditor();//获取到编辑器本身
+      const cursorPosition = quill.getSelection()?.index || 999999//获取当前光标位置
+      quill.insertEmbed(cursorPosition, "image", link, Quill.sources.USER);//插入图片
+      quill.setSelection(cursorPosition + 1);//光标位置加1
+    } catch (error) {
+      uploadImgErrorFn(error, Modal, message, navigate)
+    }
+  }
+
+  // quill富文本编辑器配置
+  const [modules] = useState({
+    history: {
+      delay: 2000, // 2s记录一次操作历史
+      maxStack: 200, // 最大记录200次操作历史
+    },
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }], //标题字号
+        [{ 'size': fontSize }], // 文字大小
+        [{ 'font': fontFamily }], // 字体
+        ['bold', 'italic', 'underline', 'strike'], //字体装饰
+        [{ 'align': [] }], //对齐方式
+        [{ 'indent': '-1' }, { 'indent': '+1' }], //缩进
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }], //序号
+        [{ 'color': [] }], //字体颜色
+        ['image', 'link'], //图片，链接标签
+      ],
+      handlers: {
+        'image': imageHandler, //点击图片标志会调用的方法,
+      },
+    },
+    clipboard: {
+      matchers: [
+        // 匹配劫持黏贴时的node节点
+        [Node.ELEMENT_NODE, customImgForPaste]
+      ]
+    },
+    imageResize: {
+      handleStyles: {
+        backgroundColor: 'black',
+        border: 'none',
+        color: 'white'
+      },
+      modules: ['Resize']
+    },
+    imageDropAndPaste: {
+      handler: imageDropHandler //拖曳处理
+    }
+  })
 
   const navigate = useNavigate()
   // 先进行一次post上传图片至服务器，返回保存的图片文件名
@@ -51,8 +193,8 @@ export default function Write() {
       message.success('图片上传成功')
       return res.data
     } catch (error) {
-      loginErrorFn(error, Modal, message, navigate)
-      return Promise.reject(new Error('请登录后进行操作 !'))
+      uploadImgErrorFn(error, Modal, message, navigate)
+      return Promise.reject(new Error('请重新登录后进行操作 !'))
     }
   }
   // 将图片文件名作为文件进行上传，后台可以通过文件名筛选数据库内的文件路径返回给前台 
@@ -133,7 +275,7 @@ export default function Write() {
         {errors.title && <span className='red'>请输入40个字以内的标题 !</span>}
         {/* desc框 */}
         <div className="editorContainer">
-          <ReactQuill theme="snow" value={desc} onChange={setDesc} className='editor' />
+          <ReactQuill theme="snow" value={desc} onChange={setDesc} className='editor' modules={modules} ref={refQuill} />
         </div>
       </div>
       <div className="menu">

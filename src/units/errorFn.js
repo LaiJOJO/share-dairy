@@ -23,8 +23,29 @@ export const loginErrorFn = function (error, Modal, message, navigate,logout) {
       onOk() {
         navigate(-1, { replace: true })
       },
-      okText: '返回上一页 '
+      okText: '返回上一页 ',
     });
+  }
+}
+
+// 上传图片错误
+export const uploadImgErrorFn = function (error, Modal, message, navigate,logout) {
+  if (error.message.includes('401')) {
+    Modal.warning({
+      title: 'Tips',
+      content: (
+        <p>用户信息已过期, 请登录后重新进行操作 !</p>
+      ),
+      onOk() {
+        logout(false)
+        navigate('/login')
+      },
+      okText: '点击前往登录页面 '
+    });
+  } else if (error.message.includes('403')) {
+    message.warning('非作者无法进行操作 !')
+  } else {
+    message.warning('资源添加失败, 请稍后尝试 !')
   }
 }
 

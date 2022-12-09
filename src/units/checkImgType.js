@@ -5,3 +5,10 @@ export const checkImgType = function (fileName) {
   let reg = new RegExp(`.*\\.${suffix}`)
   return reg.test(fileName)
 }
+
+// 校验是否base64
+export const checkImgBase64 = function (filename) {
+  // eslint-disable-next-line
+  let reg = RegExp(/data:image\/.*;base64,/)
+  return reg.test(filename)
+}

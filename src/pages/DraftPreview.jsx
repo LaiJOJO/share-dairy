@@ -82,7 +82,7 @@ export default function Single() {
         {/* 主题内容 */}
         <div className='content'>
           {/* 异步加载post，因此更新后再渲染数据 */}
-          {post?.img && <img src={post.img} alt={post?.title} className='opacity' onLoad={(e) => e.target.className = 'unopacity'} />}
+          {post?.img && <img src={post.img} alt={post?.title} className='opacity img' onLoad={(e) => e.target.className = 'unopacity img'} />}
           {/* 头像 */}
           <div className='user'>
             {post.userImg === 'null' ? <Avatar size={50} icon={<UserOutlined />} /> : <img src={post?.userImg} alt="" />}
