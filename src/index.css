@@ -1501,15 +1501,15 @@
   }
   .app .container .not-found .title {
     color: #90e6e6;
-    font-size: 28vh;
+    font-size: 50vw;
     font-weight: 500;
   }
   .app .container .not-found .desc {
-    font-size: 5vh;
+    font-size: 8vw;
     margin-bottom: 6vh;
   }
   .app .container .not-found button {
-    width: 25vh;
+    width: 50vw;
     height: 5vh;
     font-size: 2vh;
     font-weight: bold;
@@ -1524,38 +1524,38 @@
   }
   #change-data {
     display: flex;
-    gap: 20px;
+    gap: 0.4rem;
     flex-direction: column;
     align-items: center;
   }
   #change-data .red {
     color: red;
-    font-size: 12px;
+    font-size: 0.24rem;
   }
   #change-data .change {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 0.2rem;
   }
   #change-data .change span {
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 0.4rem;
   }
   #change-data .change span input {
-    padding: 5px;
+    padding: 0.1rem;
     border-width: 0 0 2px 0;
   }
   #change-data .check-info {
     display: flex;
-    gap: 20px;
+    gap: 0.4rem;
     align-items: center;
   }
   #change-data .check-info .check {
-    padding: 5px 20px;
-    border-radius: 10px;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.2rem;
     cursor: pointer;
     background-color: #90e6e6;
     border: 1px solid teal;
@@ -1569,13 +1569,13 @@
   }
   #change-img {
     display: flex;
-    gap: 20px;
+    gap: 0.4rem;
   }
   #change-img .left {
     flex: 3;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0.4rem;
     align-items: center;
     border-right: 2px dotted #90e6e6;
   }
@@ -1588,17 +1588,17 @@
     font-weight: bold;
   }
   #change-img .right {
-    padding-left: 20px;
+    padding-left: 0.4rem;
     flex: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    gap: 20px;
+    gap: 0.4rem;
     align-items: flex-end;
   }
   #change-img .right .img {
-    width: 200px;
-    height: 200px;
+    width: 4rem;
+    height: 4rem;
     border: 2px dashed #b9e7e7;
     border-radius: 50%;
     overflow: hidden;
@@ -1607,8 +1607,8 @@
   #change-img .right .img img {
     width: 100%;
     height: 100%;
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 4rem;
+    max-height: 4rem;
     object-fit: cover;
   }
   #change-img .right .upload-file {
@@ -1624,19 +1624,19 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 1.2rem;
     align-items: center;
     justify-content: center;
     text-align: center;
     background-color: #fdfdfd;
   }
   .loading span {
-    font-size: 40px;
+    font-size: 0.8rem;
     font-weight: bold;
   }
   .loading h1 {
     font-weight: bold;
-    font-size: 25px;
+    font-size: 0.5rem;
   }
 }
 @media only screen and (min-width: 600px) {
