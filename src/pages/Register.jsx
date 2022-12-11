@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { postRegister } from '../axios/request.js'
 import { scrollToTop } from '../units/scrollToTop.js'
 import { message, Modal } from 'antd'
+import { HomeOutlined, LeftOutlined } from '@ant-design/icons'
 import { useForm } from "react-hook-form";
 
 export default function Register() {
@@ -56,6 +57,10 @@ export default function Register() {
 
   return (
     <div className='auth'>
+      <div className='logo'>
+        <span className="mobile-dec" onClick={() => navigate(-1)}><LeftOutlined /> 返回</span>
+        <span className="mobile-dec" onClick={() => navigate('/')}><HomeOutlined /> 首页</span>
+      </div>
       <h1>REGISTER</h1>
       <form action="">
         <input type="text" placeholder='username' name='username'  {...register("username", { required: true, pattern: /^[a-zA-Z0-9_-]{4,16}$/ })} onChange={handlerChange} />

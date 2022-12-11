@@ -117,3 +117,6 @@
   7. 添加简易路由导航守卫，封装GuardRouter组件，根据传递的路由注册表routes进行useRoutes注册并返回；；app引用该守卫组件进行路由占位和展示，守卫组件利用useEffect配合守卫函数在组件挂载时进行路径判断，由于params参数会影响location的pathname属性，因此采用正则进行判断，同时进行页面登录权限认证
   8. 过期登录的cookie导致清空localStorage可以直接执行logout操作 ;;
   9. 添加 padding-left:calc(100vw - 100%) 滚动条宽度 解决遮罩时滚动条消失闪动问题
+  10. 新增图片预览功能，通过监听desc的点击事件且判断是否为img标签进行图片预览显示
+  11. write界面的富文本编辑器让.ql-container进行scroll设置，内部的editor进行visible设置，这样才能控制外部容器container进行滚动，进而让图片缩放框滚动；；否则缩放框和editor处于兄弟节点关系，不会随着editor进行overflow的滚动
+  12. 简单适配rem，简单适应600px以下屏幕

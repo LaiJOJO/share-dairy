@@ -12,7 +12,7 @@ function App() {
   setLoad = setLoading
   return (
     <ConfigProvider locale={zhCN}>
-      <Spin tip="资源加载中..." size="large" spinning={isLoading}>
+      <Spin tip="网络请求加载中... ..." size="large" spinning={isLoading}>
         <div className='app'>
           <div className='container'>
             <FloatButton />

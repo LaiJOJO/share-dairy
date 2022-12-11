@@ -64,7 +64,7 @@ export default function Userinfo() {
         <div className='username'>
           <span>用户名 : <span>{currentUsername}</span><i onClick={() => changeUserHandle('username')}>修改用户名</i></span>
           <span>邮箱 : <span>{userInfo?.email}</span><i onClick={() => changeUserHandle('email')}>修改邮箱</i></span>
-          <span>密码 : <span> *************</span><i onClick={() => changeUserHandle('password')}>修改密码</i></span>
+          <span>密码 : <span> *******</span><i onClick={() => changeUserHandle('password')}>修改密码</i></span>
         </div>
       </div>
       <div className='user-articles'>

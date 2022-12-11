@@ -40,6 +40,9 @@ export default function Write() {
     if (postState) {
       setDesc(postState.description)
     }
+    return ()=>{
+      Modal.destroyAll()
+     } 
   }, [postState])
   const { logout } = useContext(AuthContext)
   // 表单验证
@@ -308,7 +311,7 @@ export default function Write() {
           </div>
         </div>
         {/* cat框 */}
-        <div className="item">
+        <div className="item item-cats">
           <h1>分类</h1>
           <div className='cat'><label ><input type="radio" name="cat" value='art' onChange={e => setCat(e.target.value)} checked={cat === 'art'} /> 艺术</label></div>
           <div className='cat'><label ><input type="radio" name="cat" value='fashion' onChange={e => setCat(e.target.value)} checked={cat === 'fashion'} /> 流行</label></div>

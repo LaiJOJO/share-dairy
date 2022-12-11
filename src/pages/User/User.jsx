@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { scrollToTop } from '../../units/scrollToTop'
 import { AuthContext } from '../../context/authContext'
 import { MenuFoldOutlined, MenuUnfoldOutlined, FormOutlined, UserOutlined, FileDoneOutlined, StarOutlined } from '@ant-design/icons';
-import { Layout, Menu, Avatar, PageHeader } from 'antd';
+import { Layout, Menu, Avatar, PageHeader, Modal } from 'antd';
 import { useContext } from 'react';
 import Footer from '../../components/Footer'
 
@@ -30,6 +30,11 @@ export default function User() {
   useEffect(() => {
     scrollToTop()
   })
+  useEffect(() => {
+    return () => {
+      Modal.destroyAll()
+    }
+  }, [])
   const { currentUsername, userImg } = useContext(AuthContext)
   // 根据路由进行匹配返回高亮的key值，对高亮选项进行渲染
   const [defaultSelectedKeys] = useState(() => setKey(location.pathname))

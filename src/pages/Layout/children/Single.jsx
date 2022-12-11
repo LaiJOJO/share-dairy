@@ -6,8 +6,8 @@ import { useState, useEffect, Fragment, useContext } from 'react'
 import { getPost, deletePost, postAddCollect, postAddLike, getCollectStatus, getLikeStatus, postDelCollect, postDelLike } from '../../../axios/request'
 import moment from 'moment'
 import { AuthContext } from '../../../context/authContext.js'
-import { UserOutlined, EditTwoTone, DeleteTwoTone, StarTwoTone, LikeTwoTone } from '@ant-design/icons';
-import { Avatar, Modal, message, Tooltip } from 'antd';
+import { UserOutlined, EditTwoTone, DeleteTwoTone, StarTwoTone, LikeTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Avatar, Modal, message, Tooltip, Image } from 'antd';
 import { loginErrorFn, interactErrorFn } from '../../../units/errorFn'
 import { scrollToTop } from '../../../units/scrollToTop'
 
@@ -41,36 +41,39 @@ export default function Single() {
     }
     getEffect()
     checkLikeAndCollect(postId)
+    return () => {
+      Modal.destroyAll()
+    }
     // eslint-disable-next-line
   }, [postId])
 
   const [isLike, setIsLike] = useState(false)
   const [isCollect, setIsCollect] = useState(false)
   const [post, setPost] = useState({})
-  const [open, setOpen] = useState(false)
-  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [previewSrc, setPreviewSrc] = useState('error')
   const navigate = useNavigate()
   const { currentUsername, logout } = useContext(AuthContext)
-  // 确认框的异步确认回调
-  const handleOk = async () => {
-    setConfirmLoading(true);
-    try {
-      const res = await deletePost(postId)
-      if (res.status === 200) {
-        message.success('删除成功 !')
-        navigate(-1, { replace: true })
-      }
-    } catch (error) {
-      loginErrorFn(error, Modal, message, navigate, logout)
-    }
-    setOpen(false)
-    setConfirmLoading(false)
-  };
-  const handleCancel = () => {
-    setOpen(false);
-  };
+  // 确认删除框的确认回调
   const onDelete = async function () {
-    setOpen(true)
+    Modal.confirm({
+      title: 'Tips',
+      icon: <ExclamationCircleOutlined />,
+      content: '是否确认删除, 无法恢复 !',
+      okText: '确认',
+      cancelText: '取消',
+      onOk: async () => {
+        try {
+          const res = await deletePost(postId)
+          if (res.status === 200) {
+            message.success('删除成功 !')
+            navigate(-1, { replace: true })
+          }
+        } catch (error) {
+          loginErrorFn(error, Modal, message, navigate, logout)
+        }
+      },
+    })
   }
 
   // 点赞收藏
@@ -112,25 +115,38 @@ export default function Single() {
     }
   }
 
+  const onImgPreview = function (e) {
+    if (e.target.nodeName === 'IMG') {
+      setVisible(true)
+      setPreviewSrc(e.target.src)
+    }
+  }
   return (
     <Fragment>
-      {/* 确认弹窗 */}
-      <Modal
-        title="Tips"
-        open={open}
-        onOk={handleOk}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-      >
-        <p>{'是否确认删除该文章(无法恢复) !'}</p>
-      </Modal>
+      {/* 预览图，默认隐藏 */}
+      <Image
+        width={200}
+        style={{
+          display: 'none',
+        }}
+        src={previewSrc}
+        preview={{
+          visible,
+          scaleStep: 0.5,
+          src:  previewSrc,
+          onVisibleChange: (value) => {
+            setVisible(value);
+          },
+        }}
+      />
+
       <div className='single'>
 
         <div className='single-details'>
           {/* 主题内容 */}
           <div className='content'>
             {/* 异步加载post，因此更新后再渲染数据 */}
-            {post?.img && <img src={post.img} alt={post?.title} className='opacity img' onLoad={(e) => e.target.className = 'unopacity img'} />}
+            {post?.img && <img src={post.img} alt={post?.title} className='opacity img' onLoad={(e) => e.target.className = 'unopacity img'} onClick={onImgPreview}/>}
             {/* 头像 */}
             <div className='user'>
               <div className="left">
@@ -183,7 +199,7 @@ export default function Single() {
               </div>
             </div>
             <h1>{post?.title}</h1>
-            <p dangerouslySetInnerHTML={{ __html: post?.description }}>
+            <p className='desc' onClick={onImgPreview} dangerouslySetInnerHTML={{ __html: post?.description }}>
             </p>
           </div>
           {/* 推荐列表 */}
