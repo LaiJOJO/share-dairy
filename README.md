@@ -120,3 +120,4 @@
   10. 新增图片预览功能，通过监听desc的点击事件且判断是否为img标签进行图片预览显示
   11. write界面的富文本编辑器让.ql-container进行scroll设置，内部的editor进行visible设置，这样才能控制外部容器container进行滚动，进而让图片缩放框滚动；；否则缩放框和editor处于兄弟节点关系，不会随着editor进行overflow的滚动
   12. 简单适配rem，简单适应600px以下屏幕
+  13. 滚动时隐藏resize的缩放框，增强体验；优化quill的滚动容器，修复富文本编辑器滚动条回顶bug

@@ -77,7 +77,7 @@
         top: 0;
         left: 0;
 
-        .logo{
+        .logo {
           width: 100%;
           display: flex;
           justify-content: space-between;
@@ -613,7 +613,7 @@
           gap: .3rem;
           border-bottom: 0;
           border-radius: .2rem;
-          background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+          background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
           background-repeat: no-repeat;
           background-size: cover;
 
@@ -1607,7 +1607,7 @@
           gap: 30px;
           border-bottom: 0;
           border-radius: 20px;
-          background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+          background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
           background-repeat: no-repeat;
           background-size: cover;
 
@@ -2062,7 +2062,7 @@
         height: 100vh;
         background-color: #b9e7e7;
 
-        .logo{
+        .logo {
           display: none;
         }
 
@@ -2624,7 +2624,7 @@
           gap: 30px;
           border-bottom: 0;
           border-radius: 20px;
-          background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+          background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
           background-repeat: no-repeat;
           background-size: cover;
 
@@ -2968,17 +2968,19 @@
           .editorContainer {
             flex: 1;
             height: 500px;
+            max-height: 500px;
 
             .editor {
-              height: 380px;
-              border: none;
 
               .ql-container {
-                overflow-y: scroll;
+                overflow-y: hidden;
+                height: 380px
               }
 
               .ql-editor {
-                overflow: visible;
+                overflow-y: scroll;
+                // height: auto;
+                min-height: 100%;
               }
 
               img {
@@ -3627,7 +3629,7 @@
           gap: 30px;
           border-bottom: 0;
           border-radius: 20px;
-          background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+          background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
           background-repeat: no-repeat;
           background-size: cover;
 

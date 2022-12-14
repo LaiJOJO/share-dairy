@@ -505,7 +505,7 @@
     gap: 0.3rem;
     border-bottom: 0;
     border-radius: 0.2rem;
-    background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+    background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -1328,7 +1328,7 @@
     gap: 30px;
     border-bottom: 0;
     border-radius: 20px;
-    background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+    background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -2154,7 +2154,7 @@
     gap: 30px;
     border-bottom: 0;
     border-radius: 20px;
-    background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+    background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -2439,16 +2439,15 @@
   .app .container .write .content .editorContainer {
     flex: 1;
     height: 500px;
-  }
-  .app .container .write .content .editorContainer .editor {
-    height: 380px;
-    border: none;
+    max-height: 500px;
   }
   .app .container .write .content .editorContainer .editor .ql-container {
-    overflow-y: scroll;
+    overflow-y: hidden;
+    height: 380px;
   }
   .app .container .write .content .editorContainer .editor .ql-editor {
-    overflow: visible;
+    overflow-y: scroll;
+    min-height: 100%;
   }
   .app .container .write .content .editorContainer .editor img {
     max-width: 70%;
@@ -2983,7 +2982,7 @@
     gap: 30px;
     border-bottom: 0;
     border-radius: 20px;
-    background-image: url('http://192.168.175.131:3001/images/blog/commentbgc.png');
+    background-image: url('http://114.132.214.26:3001/images/blog/commentbgc.png');
     background-repeat: no-repeat;
     background-size: cover;
   }

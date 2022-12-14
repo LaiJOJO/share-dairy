@@ -17,7 +17,6 @@ import { scrollToTop } from '../../../units/scrollToTop';
 import { AuthContext } from '../../../context/authContext';
 import { sensitiveWordsParser, checkSensitiveWords } from '../../../units/sensitiveWordsReg';
 
-Quill.register('modules/imageDropAndPaste', QuillImageDropAndPaste)
 
 let fontFamily = ['宋体', '黑体', '微软雅黑', '楷体', '仿宋', 'Arial', '苹方'];
 Quill.imports['attributors/style/font'].whitelist = fontFamily;
@@ -29,6 +28,7 @@ Quill.register(Quill.imports['attributors/style/size']);
 
 Quill.register('modules/imageDrop', ImageDrop);
 Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/imageDropAndPaste', QuillImageDropAndPaste)
 
 
 export default function Write() {
@@ -40,9 +40,9 @@ export default function Write() {
     if (postState) {
       setDesc(postState.description)
     }
-    return ()=>{
+    return () => {
       Modal.destroyAll()
-     } 
+    }
   }, [postState])
   const { logout } = useContext(AuthContext)
   // 表单验证
@@ -76,7 +76,7 @@ export default function Write() {
         quill.insertEmbed(cursorPosition, "image", link, Quill.sources.USER);//插入图片
         quill.setSelection(cursorPosition + 1);//光标位置加1
       } catch (error) {
-        uploadImgErrorFn(error, Modal, message, navigate)
+        uploadImgErrorFn(error, Modal, message, navigate, logout)
       }
       return false
     }
@@ -103,7 +103,7 @@ export default function Write() {
           quill.insertEmbed(cursorPosition, "image", link, Quill.sources.USER);//插入图片
           quill.setSelection(cursorPosition + 1);//光标位置加1
         } catch (error) {
-          uploadImgErrorFn(error, Modal, message, navigate)
+          uploadImgErrorFn(error, Modal, message, navigate, logout)
         }
       }
     })
@@ -113,6 +113,7 @@ export default function Write() {
   // 拖曳base64格式处理函数
   const imageDropHandler = async function (imageDataUrl, type, imageData) {
     const file = imageData.toFile()
+    console.log(1111)
     if (!checkImgType(file.name) || file.size > 1000000) {
       return message.info('仅支持上传jpg、png、jpeg、svg格式、容量1M大小的图片')
     }
@@ -126,7 +127,7 @@ export default function Write() {
       quill.insertEmbed(cursorPosition, "image", link, Quill.sources.USER);//插入图片
       quill.setSelection(cursorPosition + 1);//光标位置加1
     } catch (error) {
-      uploadImgErrorFn(error, Modal, message, navigate)
+      uploadImgErrorFn(error, Modal, message, navigate, logout)
     }
   }
 
@@ -164,7 +165,7 @@ export default function Write() {
         border: 'none',
         color: 'white'
       },
-      modules: ['Resize']
+      modules: ['Resize', 'DisplaySize']
     },
     imageDropAndPaste: {
       handler: imageDropHandler //拖曳处理
@@ -196,7 +197,7 @@ export default function Write() {
       message.success('图片上传成功')
       return res.data
     } catch (error) {
-      uploadImgErrorFn(error, Modal, message, navigate)
+      uploadImgErrorFn(error, Modal, message, navigate, logout)
       return Promise.reject(new Error('请重新登录后进行操作 !'))
     }
   }
@@ -265,6 +266,22 @@ export default function Write() {
       loginErrorFn(error, Modal, message, navigate, logout)
     }
   }
+  const onEditorChange = function (value) {
+    setDesc(value)
+  }
+
+  // 失焦时触发点击图片缩放框进行监听滚动，滚动则隐藏图片框
+  const onEditorBlur = function () {
+    const quill = refQuill?.current?.getEditor()
+    if (quill) {
+      quill.scrollingContainer.addEventListener('scroll', (e) => {
+        e.preventDefault()
+        if (quill.container.childElementCount >= 4) {
+          quill.container.children[quill.container.childElementCount - 1].style.display = 'none'
+        }
+      })
+    }
+  }
 
   const [desc, setDesc] = useState('');
   const [title, setTitle] = useState(postState ? postState.title : '');
@@ -278,7 +295,7 @@ export default function Write() {
         {errors.title && <span className='red'>请输入40个字以内的标题 !</span>}
         {/* desc框 */}
         <div className="editorContainer">
-          <ReactQuill theme="snow" value={desc} onChange={setDesc} className='editor' modules={modules} ref={refQuill} />
+          <ReactQuill theme="snow" value={desc} onBlur={onEditorBlur} onChange={onEditorChange} className='editor' modules={modules} ref={refQuill} />
         </div>
       </div>
       <div className="menu">
