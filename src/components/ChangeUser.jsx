@@ -122,6 +122,14 @@ export default function ChangeUser(props) {
 
   const handleCancel = () => {
     if (confirmLoading) return message.info('信息提交中,无法取消')
+    setChangeInfo({
+      oldUsername: '',
+      newUsername: '',
+      oldEmail: '',
+      newEmail: '',
+      oldPassword: '',
+      newPassword: ''
+    })
     setOpen(false);
     setConfirmLoading(false)
   };
