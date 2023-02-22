@@ -12,7 +12,7 @@
   6. moment -- 用于管理显示时间
   7. react-hook-form  -- 表单认证
   8. react-simple-verify  --  滑动验证包
-  9. react-lazyload  --  实现懒加载，导入Lazyload直接包裹图片容器，原理是利用intersectionObserver配合useState设置是否可见状态进行展示
+  9. react-lazyload  --  实现懒加载，导入Lazyload直接包裹图片容器，原理是利用intersectionObserver配合useState设置元素节点和视口重合度进行判断是否可见状态并进行展示
   10. react-avatar-editor -- 图片裁剪器 
 
 ## LOGIN and REGISTER

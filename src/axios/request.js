@@ -13,6 +13,10 @@ export const postLogout = () => {
   return request({ url: '/auth/logout', method: 'POST' })
 }
 
+export const postReset = (value) => {
+  return request({ url: '/auth/findpassword', method: 'POST', data: value })
+}
+
 // 获取文章
 export const getPosts = (cat, page, pageSize) => {
   return request({ url: `/posts/getposts/?cat=${cat}&page=${page - 1}&pagesize=${pageSize}`, method: 'GET' })

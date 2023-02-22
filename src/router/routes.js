@@ -9,6 +9,7 @@ const Search = lazy(() => import('../pages/Layout/children/SearchRes'))
 
 const Login = lazy(() => import('../pages/Login'))
 const Register = lazy(() => import('../pages/Register'))
+const FindPassword = lazy(()=>import ('../pages/FindPassword'))
 
 const User = lazy(() => import('../pages/User/User'))
 const Drafts = lazy(() => import('../pages/User/children/Drafts'))
@@ -53,6 +54,10 @@ let router = [
   {
     path: '/register',
     element: <Register />
+  },
+  {
+    path: '/findpassword',
+    element: <FindPassword />
   },
   {
     path: '/user',
