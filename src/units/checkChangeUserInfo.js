@@ -6,13 +6,13 @@ export const checkUsername = function (username) {
 // eslint-disable-next-line
 export const checkPassword = function (password) {
   // eslint-disable-next-line
-  let reg = new RegExp(`^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$`)
+  let reg = new RegExp(`^.*(?=.{6,})(?=.*\\d)(?=.*[A-Z])(?=.*[a-z]).*$`)
   return reg.test(password)
 }
 
 export const checkEmail = function (email) {
   // eslint-disable-next-line
-  let reg = new RegExp(`^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$`)
+  let reg = new RegExp(`^[A-Za-z0-9\\u4e00-\\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$`)
   return reg.test(email)
 }
 

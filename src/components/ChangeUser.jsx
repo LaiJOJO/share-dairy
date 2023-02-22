@@ -57,7 +57,7 @@ export default function ChangeUser(props) {
     else {
       if (checkRequired(changeInfo.oldUsername)) return message.warning('请输入用户名')
       if (checkRequired(changeInfo.oldPassword)) return message.warning('请输入原密码')
-      if (!checkPassword(changeInfo.newPassword)) return message.warning('密码应至少包含6位大小写字母和数字')
+      if (!checkPassword(changeInfo.newPassword)) return message.warning('新密码应至少包含6位大小写字母和数字')
       if (checkRequired(changeInfo.oldEmail)) return message.warning('请输入用户邮箱')
       setFormData({ 'username': changeInfo.oldUsername, 'newPassword': changeInfo.newPassword, 'oldPassword': changeInfo.oldPassword, 'email': changeInfo.oldEmail })
     }
@@ -87,7 +87,6 @@ export default function ChangeUser(props) {
       message.success('修改成功,请重新登录')
       navigate('/login', { replace: true })
     } catch (error) {
-      setOpen(false);
       setConfirmLoading(false);
       if (error.message.includes('401')) {
         Modal.warning({
@@ -122,13 +121,16 @@ export default function ChangeUser(props) {
 
   const handleCancel = () => {
     if (confirmLoading) return message.info('信息提交中,无法取消')
-    setChangeInfo({
-      oldUsername: '',
-      newUsername: '',
-      oldEmail: '',
-      newEmail: '',
-      oldPassword: '',
-      newPassword: ''
+    setChangeInfo((state)=>{
+      state = {
+        oldUsername: '',
+        newUsername: '',
+        oldEmail: '',
+        newEmail: '',
+        oldPassword: '',
+        newPassword: ''
+      }
+      return state
     })
     setOpen(false);
     setConfirmLoading(false)

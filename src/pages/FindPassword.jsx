@@ -25,7 +25,7 @@ export default function Login() {
       Modal.confirm({
         title: 'Tips',
         content: (
-          <p>{res.data} 已重置为123456</p>
+          <p>{res.data} 密码已重置为123456,请及时前往用户界面修改</p>
         ),
         onOk() {
           navigate('/login')
